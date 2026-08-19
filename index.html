@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>indukto — Apps &amp; Code</title>
   <meta name="description" content="indukto — Android apps on Google Play and open-source projects on GitHub." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Cpath d='M56 12 L26 56 h18 l-6 32 30-44 h-18 z' fill='white'/%3E%3C/svg%3E" />
@@ -61,10 +61,15 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    a, button { touch-action: manipulation; }
+
+    body { -webkit-tap-highlight-color: transparent; }
+
     html {
       scroll-snap-type: y mandatory;
       overscroll-behavior-y: none;
       scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
@@ -146,7 +151,11 @@
       transform: translate(-50%, -50%);
       z-index: 1;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.06);
-      overflow: hidden;
+      max-height: calc(100vh - 2rem);
+      max-height: calc(100svh - 2rem);
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
     }
 
     .ascii {
@@ -425,8 +434,8 @@
 
     .frame-label {
       position: absolute;
-      left: 1.25rem;
-      bottom: 1.1rem;
+      left: calc(1.25rem + env(safe-area-inset-left));
+      bottom: calc(1.1rem + env(safe-area-inset-bottom));
       font-family: var(--term);
       font-size: 24px;
       color: #ddd;
@@ -451,6 +460,11 @@
       border-radius: 18px;
       text-align: center;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.16);
+      max-height: calc(100vh - 2rem);
+      max-height: calc(100svh - 2rem);
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
     }
 
     .frame-info h2 {
@@ -496,8 +510,8 @@
 
     .topleft {
       position: fixed;
-      top: 1.1rem;
-      left: 1.25rem;
+      top: calc(1.1rem + env(safe-area-inset-top));
+      left: calc(1.25rem + env(safe-area-inset-left));
       z-index: 4;
       display: flex;
       gap: 1rem;
@@ -517,7 +531,10 @@
 
     @media (max-width: 480px) {
       .corner { display: none; }
-      .card { padding: 1.75rem 1.1rem 1.5rem; max-width: calc(100vw - 2.5rem); }
+      .card { padding: 1.5rem 1rem 1.25rem; max-width: calc(100vw - 2rem); }
+      .frame-info { padding: 1.5rem 1rem 1.25rem; }
+      .frame-info h2 { font-size: 36px; }
+      .frame-label { font-size: 20px; }
       .link {
         gap: 0.75rem;
         padding: 0.85rem 0.85rem;
@@ -526,9 +543,17 @@
       .link .icon svg { width: 20px; height: 20px; }
       .link .meta .name { font-size: 20px; }
       .link .meta .desc { font-size: 13px; }
+      .topleft a { padding: 0.65rem 0.3rem; }
       h1 { font-size: 24px; }
       .ascii { font-size: 10.5px; }
       .tagline { font-size: 18px; }
+      .projects { margin-top: 1.5rem; }
+      footer { margin-top: 1.25rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      h1, .cursor { animation: none; }
     }
   </style>
 </head>
@@ -545,7 +570,7 @@
 
   <section class="gallery" aria-label="Photo gallery">
     <figure class="frame" id="dev">
-      <img src="photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif" alt="Halftone photo 01" />
+      <img src="photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif" alt="Halftone photo 01" decoding="async" />
       <main class="card">
       <h1>INDUKTO</h1>
     <p class="tagline"><span class="prompt">&gt;</span> <span id="type"></span><span class="cursor">▮</span></p>
@@ -584,7 +609,7 @@
       <figcaption class="frame-label">// 01</figcaption>
     </figure>
     <figure class="frame" id="photo">
-      <img src="photos/liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photo 02" loading="lazy" />
+      <img src="photos/liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photo 02" loading="lazy" decoding="async" />
       <div class="frame-info">
         <h2>PHOTOGRAPHY</h2>
         <p>grain, halftone &amp; liminal experiments</p>
@@ -593,15 +618,15 @@
       <figcaption class="frame-label">// 02</figcaption>
     </figure>
     <figure class="frame">
-      <img src="photos/liminal-halftone3-C91BE3BAAE70A0F72C06F58E990CEE72EB32AC3CC04F52519525789D6071B9AA.avif" alt="Liminal halftone photo 03" loading="lazy" />
+      <img src="photos/liminal-halftone3-C91BE3BAAE70A0F72C06F58E990CEE72EB32AC3CC04F52519525789D6071B9AA.avif" alt="Liminal halftone photo 03" loading="lazy" decoding="async" />
       <figcaption class="frame-label">// 03</figcaption>
     </figure>
     <figure class="frame">
-      <img src="photos/liminal-halftone4-DCCB542A9930E5E4F070C4735FB6D118B21294B52FACC19F8773F91C8258E752.avif" alt="Liminal halftone photo 04" loading="lazy" />
+      <img src="photos/liminal-halftone4-DCCB542A9930E5E4F070C4735FB6D118B21294B52FACC19F8773F91C8258E752.avif" alt="Liminal halftone photo 04" loading="lazy" decoding="async" />
       <figcaption class="frame-label">// 04</figcaption>
     </figure>
     <figure class="frame">
-      <img src="photos/liminal-halftone5-3F8E5E9F407291C06ABCDC538DF1BFD529CD37D3DD9541B81DF35FAF9E4DF402.avif" alt="Liminal halftone photo 05" loading="lazy" />
+      <img src="photos/liminal-halftone5-3F8E5E9F407291C06ABCDC538DF1BFD529CD37D3DD9541B81DF35FAF9E4DF402.avif" alt="Liminal halftone photo 05" loading="lazy" decoding="async" />
       <figcaption class="frame-label">// 05</figcaption>
     </figure>
   </section>
@@ -641,15 +666,21 @@
     });
 
     // terminal-style typewriter for the tagline
+    // terminal-style typewriter for the tagline (skipped when the user
+    // prefers reduced motion — better for battery and sensitive users)
     const text = "android apps & open-source experiments";
     const el = document.getElementById("type");
-    let i = 0;
-    (function tick() {
-      if (i <= text.length) {
-        el.textContent = text.slice(0, i++);
-        setTimeout(tick, 45);
-      }
-    })();
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = text;
+    } else {
+      let i = 0;
+      (function tick() {
+        if (i <= text.length) {
+          el.textContent = text.slice(0, i++);
+          setTimeout(tick, 45);
+        }
+      })();
+    }
 
     // github projects — static list, no external requests (Datenschutz)
     const projList = document.getElementById("proj-list");
