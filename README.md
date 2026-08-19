@@ -7,6 +7,7 @@ Two designs are included:
 
 - `index.html` — retro pixel / ASCII / CRT style
 - `material.html` — Material You 3 (Material Design 3) style
+- `photo.html` — optional photography page (page 02), not linked from the index card
 
 To use the Material version as your main page, rename `material.html` to `index.html`
 (or keep both and link between them).

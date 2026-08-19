@@ -6,10 +6,25 @@
   <title>indukto — Apps &amp; Code</title>
   <meta name="description" content="indukto — Android apps on Google Play and open-source projects on GitHub." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Cpath d='M56 12 L26 56 h18 l-6 32 30-44 h-18 z' fill='white'/%3E%3C/svg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
   <style>
+    @font-face {
+      font-family: 'Press Start 2P';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('pressstart2p-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    @font-face {
+      font-family: 'VT323';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('vt323-latin.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
     @font-face {
       font-family: 'LibreBarcode128';
       src: url('LibreBarcode128Text-Regular.ttf') format('truetype');
@@ -46,15 +61,21 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html {
+      scroll-snap-type: y mandatory;
+      overscroll-behavior-y: none;
+    }
+
     body {
       font-family: var(--bitcount);
       background-color: #000;
       color: #fff;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 2rem 1.25rem;
+      justify-content: flex-start;
+      padding: 0;
       position: relative;
       overflow-x: hidden;
     }
@@ -78,17 +99,23 @@
       pointer-events: none;
     }
 
-    /* Terminal corner brackets */
-    .corner {
+    /* CRT scanlines over everything */
+    body::after {
+      content: "";
       position: fixed;
-      font-family: var(--term);
-      font-size: 24px;
-      line-height: 1;
-      color: #3d3d3d;
-      z-index: 6;
+      inset: 0;
+      z-index: 5;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.035) 0px,
+        rgba(255,255,255,0.035) 1px,
+        transparent 1px,
+        transparent 3px
+      );
       pointer-events: none;
-      user-select: none;
     }
+
+
     
 
     .pixel-corners {
@@ -112,7 +139,10 @@
       width: 100%;
       text-align: center;
       filter: none;
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 1;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.06);
       overflow: hidden;
@@ -135,16 +165,28 @@
       letter-spacing: 3px;
       line-height: 1.9;
       color: #fff;
-      text-shadow: 3px 3px 0 #3a3a3a;
+      text-shadow:
+        3px 3px 0 #3a3a3a,
+        0 0 18px rgba(255, 255, 255, 0.35),
+        0 0 45px rgba(255, 255, 255, 0.15);
       animation: glow 3.5s ease-in-out infinite;
     }
 
     @keyframes glow {
-      0%, 100% { text-shadow: 3px 3px 0 #3a3a3a; }
-      50% { text-shadow: 3px 3px 0 #3a3a3a, 0 0 14px rgba(255, 255, 255, 0.55); }
-    }
-
-.tagline {
+      0%, 100% {
+        text-shadow:
+          3px 3px 0 #3a3a3a,
+          0 0 18px rgba(255, 255, 255, 0.35),
+          0 0 45px rgba(255, 255, 255, 0.15);
+      }
+      50% {
+        text-shadow:
+          3px 3px 0 #3a3a3a,
+          0 0 22px rgba(255, 255, 255, 0.45),
+          0 0 55px rgba(255, 255, 255, 0.28),
+          0 0 90px rgba(255, 255, 255, 0.12);
+      }
+    }    .tagline {
       font-family: var(--bitcount);
       font-size: 22px;
       line-height: 1.7;
@@ -152,6 +194,7 @@
       margin: 0.5rem 0 2.25rem;
       letter-spacing: 0.5px;
       min-height: 2.2em;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
     }
 
     .tagline .prompt { color: #fff; }
@@ -159,6 +202,7 @@
     .cursor {
       display: inline-block;
       color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
       animation: blink 1s steps(2, start) infinite;
     }
 
@@ -178,17 +222,19 @@
       text-decoration: none;
       background: #1a1a1a;
       color: #fff;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
       border-radius: 12px;
       padding: 1rem 1.1rem;
       filter: none;
-      transition: transform 0.2s ease, background-color 0.15s ease, border-color 0.15s ease;
+      transition: transform 0.2s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .link:hover {
       transform: translateY(-2px);
-      background: #222;
-      border-color: rgba(255,255,255,0.2);
+      background: #fff;
+      border-color: #fff;
+      color: #000;
+      box-shadow: 0 0 20px rgba(255,255,255,0.35);
     }
 
     .link:active {
@@ -222,7 +268,8 @@
     }
 
     .link:hover .icon {
-      background: #333;
+      background: #000;
+      border-color: #000;
     }
 
     .link:hover .icon svg { fill: #fff; }
@@ -236,6 +283,7 @@
       letter-spacing: 1px;
       display: block;
       color: inherit;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.45);
     }
 
     .link .meta .desc {
@@ -248,28 +296,144 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       transition: color 0.15s ease;
+      text-shadow: 0 0 9px rgba(255, 255, 255, 0.3);
     }
 
-    .link:hover .meta .desc { color: #bbb; }
+    .link:hover .meta .desc { color: #333; }
+
+    .projects {
+      margin-top: 2.5rem;
+      text-align: left;
+    }
+
+    .projects-title {
+      font-family: var(--term);
+      font-size: 20px;
+      color: #9a9a9a;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+    }
+
+    .projects-title .prompt { color: #fff; }
+
+    .proj {
+      display: block;
+      text-decoration: none;
+      color: #fff;
+      padding: 0.65rem 0.1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: border-color 0.15s ease, padding-left 0.15s ease;
+    }
+
+    .proj:last-child { border-bottom: none; }
+
+    .proj-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .proj-name {
+      font-family: var(--bitcount);
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 9px rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .proj-stars {
+      font-family: var(--bitcount);
+      font-size: 13px;
+      color: #888;
+      flex-shrink: 0;
+      text-shadow: 0 0 7px rgba(255, 255, 255, 0.2);
+    }
+
+    .proj-desc {
+      font-family: var(--bitcount);
+      font-size: 13px;
+      color: #777;
+      display: block;
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-shadow: 0 0 7px rgba(255, 255, 255, 0.15);
+    }
+
+    .proj:hover {
+      border-color: rgba(255, 255, 255, 0.35);
+      padding-left: 0.4rem;
+    }
+
+    .proj:hover .proj-name { color: #fff; }
+    .proj:hover .proj-desc { color: #bbb; }
 
     footer {
       margin-top: 2.25rem;
       font-family: var(--bitcount);
       font-size: 18px;
       line-height: 1.6;
-      color: #666;
+      color: #7a7a7a;
       letter-spacing: 1px;
+      text-shadow: 0 0 9px rgba(255, 255, 255, 0.28);
     }
 
     footer .brand {
       font-family: var(--term);
     }
 
-    footer .ver { color: #444; }
+    footer .ver { color: #5c5c5c; }
+
+    /* full-screen photo slides */
+    .gallery {
+      width: 100%;
+      display: block;
+    }
+
+    .frame {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      background: #000;
+      overflow: hidden;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .frame picture {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(1) contrast(1.05);
+    }
+
+    .frame-label {
+      position: absolute;
+      left: 1.25rem;
+      bottom: 1.1rem;
+      font-family: var(--term);
+      font-size: 24px;
+      color: #ddd;
+      letter-spacing: 1px;
+      text-shadow: 0 0 9px rgba(0, 0, 0, 0.85);
+    }
 
     @media (max-width: 480px) {
       .corner { display: none; }
-      .card { padding: 1.75rem 1.1rem 1.5rem; }
+      .card { padding: 1.75rem 1.1rem 1.5rem; max-width: calc(100vw - 2.5rem); }
       .link {
         gap: 0.75rem;
         padding: 0.85rem 0.85rem;
@@ -291,10 +455,14 @@
   <span class="corner bl" aria-hidden="true">└</span>
   <span class="corner br" aria-hidden="true">┘</span>
 
-  <main class="card">
-    
-
-    <h1>INDUKTO</h1>
+  <section class="gallery" aria-label="Photo gallery">
+    <figure class="frame">
+      <picture>
+        <source srcset="halftone.avif" type="image/avif" />
+        <img src="halftone.png" alt="Halftone photo 01" />
+      </picture>
+      <main class="card">
+      <h1>INDUKTO</h1>
     <p class="tagline"><span class="prompt">&gt;</span> <span id="type"></span><span class="cursor">▮</span></p>
 
     <nav class="links">
@@ -321,8 +489,44 @@
       </a>
     </nav>
 
+    <section class="projects" aria-label="Projects">
+      <div class="projects-title"><span class="prompt">//</span> projects</div>
+      <div id="proj-list" aria-live="polite"></div>
+    </section>
+
     <footer>© <span id="year">2026</span> <span class="brand">indukto</span> <span class="ver"></footer>
-  </main>
+      </main>
+      <figcaption class="frame-label">// 01</figcaption>
+    </figure>
+    <figure class="frame">
+      <picture>
+        <source srcset="liminal-halftone2.avif" type="image/avif" />
+        <img src="liminal-halftone2.png" alt="Liminal halftone photo 02" loading="lazy" />
+      </picture>
+      <figcaption class="frame-label">// 02</figcaption>
+    </figure>
+    <figure class="frame">
+      <picture>
+        <source srcset="liminal-halftone3.avif" type="image/avif" />
+        <img src="liminal-halftone3.png" alt="Liminal halftone photo 03" loading="lazy" />
+      </picture>
+      <figcaption class="frame-label">// 03</figcaption>
+    </figure>
+    <figure class="frame">
+      <picture>
+        <source srcset="liminal-halftone4.avif" type="image/avif" />
+        <img src="liminal-halftone4.png" alt="Liminal halftone photo 04" loading="lazy" />
+      </picture>
+      <figcaption class="frame-label">// 04</figcaption>
+    </figure>
+    <figure class="frame">
+      <picture>
+        <source srcset="liminal-halftone5.avif" type="image/avif" />
+        <img src="liminal-halftone5.png" alt="Liminal halftone photo 05" loading="lazy" />
+      </picture>
+      <figcaption class="frame-label">// 05</figcaption>
+    </figure>
+  </section>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -337,6 +541,54 @@
         setTimeout(tick, 45);
       }
     })();
+
+    // github projects — static list, no external requests (Datenschutz)
+    const projList = document.getElementById("proj-list");
+    const FALLBACK_PROJECTS = [
+      { name: "zoom-box", html_url: "https://github.com/Indukto/zoom-box", description: "Android camera with Zoombox", language: "Kotlin", stargazers_count: 5 },
+      { name: "TvGarden", html_url: "https://github.com/Indukto/TvGarden", description: null, language: "Kotlin", stargazers_count: 2 },
+      { name: "gpro", html_url: "https://github.com/Indukto/gpro", description: "local llm asistant", language: "TypeScript", stargazers_count: 0 },
+      { name: "sony-liveview-usb", html_url: "https://github.com/Indukto/sony-liveview-usb", description: null, language: "Java", stargazers_count: 0 },
+      { name: "FaceSimilarityEngine", html_url: "https://github.com/Indukto/FaceSimilarityEngine", description: null, language: "Python", stargazers_count: 0 }
+    ];
+
+    function renderProjects(repos) {
+      projList.innerHTML = "";
+      repos.forEach(r => {
+        const a = document.createElement("a");
+        a.className = "proj";
+        a.href = r.html_url;
+        a.target = "_blank";
+        a.rel = "noopener";
+
+        const top = document.createElement("span");
+        top.className = "proj-top";
+
+        const name = document.createElement("span");
+        name.className = "proj-name";
+        name.textContent = r.name;
+        top.appendChild(name);
+
+        if (r.stargazers_count > 0) {
+          const stars = document.createElement("span");
+          stars.className = "proj-stars";
+          stars.textContent = "\u2605 " + r.stargazers_count;
+          top.appendChild(stars);
+        }
+        a.appendChild(top);
+
+        const desc = r.description || (r.language ? r.language.toLowerCase() : "");
+        if (desc) {
+          const d = document.createElement("span");
+          d.className = "proj-desc";
+          d.textContent = desc;
+          a.appendChild(d);
+        }
+        projList.appendChild(a);
+      });
+    }
+
+    renderProjects(FALLBACK_PROJECTS);
 
     // The photo is used directly as the background — no re-dithering.
     // Prefer the full-res file when it's available (real hosting); fall back
