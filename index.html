@@ -431,6 +431,59 @@
       text-shadow: 0 0 9px rgba(0, 0, 0, 0.85);
     }
 
+    .frame-info {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 400px;
+      padding: 1.75rem 1.5rem;
+      background: rgba(10, 10, 10, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    .frame-info h2 {
+      font-family: var(--barcode);
+      font-size: 40px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
+    }
+
+    .frame-info p {
+      font-family: var(--bitcount);
+      font-size: 16px;
+      line-height: 1.6;
+      color: #bdbdbd;
+      margin-top: 0.5rem;
+      text-shadow: 0 0 9px rgba(255, 255, 255, 0.25);
+    }
+
+    .frame-info a {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: var(--bitcount);
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      padding: 0.5rem 0.9rem;
+      transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .frame-info a:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+    }
+
     @media (max-width: 480px) {
       .corner { display: none; }
       .card { padding: 1.75rem 1.1rem 1.5rem; max-width: calc(100vw - 2.5rem); }
@@ -503,6 +556,11 @@
         <source srcset="liminal-halftone2.avif" type="image/avif" />
         <img src="liminal-halftone2.png" alt="Liminal halftone photo 02" loading="lazy" />
       </picture>
+      <div class="frame-info">
+        <h2>PHOTOGRAPHY</h2>
+        <p>grain, halftone &amp; liminal experiments</p>
+        <a href="photo.html">open gallery</a>
+      </div>
       <figcaption class="frame-label">// 02</figcaption>
     </figure>
     <figure class="frame">
