@@ -3,6 +3,14 @@
 A lightweight, single-file profile page for GitHub Pages, linking to the Google Play
 store and GitHub profile.
 
+Two designs are included:
+
+- `index.html` — retro pixel / ASCII / CRT style
+- `material.html` — Material You 3 (Material Design 3) style
+
+To use the Material version as your main page, rename `material.html` to `index.html`
+(or keep both and link between them).
+
 ## Before you deploy — replace the placeholders
 
 Open `index.html` and update these two links:
