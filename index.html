@@ -545,7 +545,7 @@
 
   <section class="gallery" aria-label="Photo gallery">
     <figure class="frame" id="dev">
-      <img src="halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif" alt="Halftone photo 01" />
+      <img src="photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif" alt="Halftone photo 01" />
       <main class="card">
       <h1>INDUKTO</h1>
     <p class="tagline"><span class="prompt">&gt;</span> <span id="type"></span><span class="cursor">▮</span></p>
@@ -584,7 +584,7 @@
       <figcaption class="frame-label">// 01</figcaption>
     </figure>
     <figure class="frame" id="photo">
-      <img src="liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photo 02" loading="lazy" />
+      <img src="photos/liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photo 02" loading="lazy" />
       <div class="frame-info">
         <h2>PHOTOGRAPHY</h2>
         <p>grain, halftone &amp; liminal experiments</p>
@@ -593,15 +593,15 @@
       <figcaption class="frame-label">// 02</figcaption>
     </figure>
     <figure class="frame">
-      <img src="liminal-halftone3-C91BE3BAAE70A0F72C06F58E990CEE72EB32AC3CC04F52519525789D6071B9AA.avif" alt="Liminal halftone photo 03" loading="lazy" />
+      <img src="photos/liminal-halftone3-C91BE3BAAE70A0F72C06F58E990CEE72EB32AC3CC04F52519525789D6071B9AA.avif" alt="Liminal halftone photo 03" loading="lazy" />
       <figcaption class="frame-label">// 03</figcaption>
     </figure>
     <figure class="frame">
-      <img src="liminal-halftone4-DCCB542A9930E5E4F070C4735FB6D118B21294B52FACC19F8773F91C8258E752.avif" alt="Liminal halftone photo 04" loading="lazy" />
+      <img src="photos/liminal-halftone4-DCCB542A9930E5E4F070C4735FB6D118B21294B52FACC19F8773F91C8258E752.avif" alt="Liminal halftone photo 04" loading="lazy" />
       <figcaption class="frame-label">// 04</figcaption>
     </figure>
     <figure class="frame">
-      <img src="liminal-halftone5-3F8E5E9F407291C06ABCDC538DF1BFD529CD37D3DD9541B81DF35FAF9E4DF402.avif" alt="Liminal halftone photo 05" loading="lazy" />
+      <img src="photos/liminal-halftone5-3F8E5E9F407291C06ABCDC538DF1BFD529CD37D3DD9541B81DF35FAF9E4DF402.avif" alt="Liminal halftone photo 05" loading="lazy" />
       <figcaption class="frame-label">// 05</figcaption>
     </figure>
   </section>
@@ -706,9 +706,9 @@
 
     const bg = document.querySelector(".bg");
     const full = new Image();
-    full.src = "halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif";
+    full.src = "photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif";
     full.onload = () => {
-      bg.style.backgroundImage = "url(halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif)";
+      bg.style.backgroundImage = "url(photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif)";
     };
     full.onerror = () => {
       bg.style.backgroundImage = "url(" + IMG_DATA + ")";

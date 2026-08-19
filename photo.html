@@ -75,7 +75,7 @@
       inset: 0;
       z-index: 0;
       background: #000 no-repeat center / cover;
-      background-image: url('halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif');
+      background-image: url('photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif');
       filter: grayscale(1) contrast(1.1) brightness(1.05);
       pointer-events: none;
     }
@@ -190,6 +190,16 @@
 
     .shot { cursor: zoom-in; }
 
+    .empty-note {
+      grid-column: 1 / -1;
+      font-family: var(--term);
+      font-size: 22px;
+      color: #7a7a7a;
+      text-align: center;
+      padding: 3rem 1rem;
+      text-shadow: 0 0 9px rgba(255, 255, 255, 0.25);
+    }
+
     .lightbox {
       position: fixed;
       inset: 0;
@@ -253,35 +263,7 @@
       <a class="back" href="index.html">← back to index</a>
     </nav>
 
-    <section class="grid" aria-label="Photo gallery">
-      <figure class="shot">
-        <img src="halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif" alt="Halftone photo 01" />
-      </figure>
-
-      <figure class="shot">
-        <img src="liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photo 02" loading="lazy" />
-      </figure>
-
-      <figure class="shot">
-        <img src="liminal-halftone3-C91BE3BAAE70A0F72C06F58E990CEE72EB32AC3CC04F52519525789D6071B9AA.avif" alt="Liminal halftone photo 03" loading="lazy" />
-      </figure>
-
-      <figure class="shot">
-        <img src="liminal-halftone4-DCCB542A9930E5E4F070C4735FB6D118B21294B52FACC19F8773F91C8258E752.avif" alt="Liminal halftone photo 04" loading="lazy" />
-      </figure>
-
-      <figure class="shot">
-        <img src="liminal-halftone5-3F8E5E9F407291C06ABCDC538DF1BFD529CD37D3DD9541B81DF35FAF9E4DF402.avif" alt="Liminal halftone photo 05" loading="lazy" />
-      </figure>
-
-      <figure class="shot">
-        <img src="DSC09949-1DF31FF1BC5A8CD3719F4F98AA39647EFE868EEA9A85DB00E077BC56D0E10F25.avif" alt="Grain camera photo 06" loading="lazy" />
-      </figure>
-
-      <figure class="shot">
-        <img src="DSC09971-CD87FF1653B3F7AEB43F70F71C08D9077B18DECDD001F6A0FD30EBC59120815B.avif" alt="Grain camera photo 07" loading="lazy" />
-      </figure>
-    </section>
+    <section class="grid" id="gallery" aria-label="Photo gallery"></section>
 
     <footer>© <span id="year">2026</span> indukto</footer>
   </div>
@@ -290,19 +272,44 @@
     <img src="" alt="" />
   </div>
 
+  <script src="photos.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Gallery is rendered from the photos.js manifest, which is generated
+    // from the photos/ folder by:  node build-gallery.mjs
+    const grid = document.getElementById("gallery");
+    const photos = window.PHOTOS || [];
+
+    if (photos.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "empty-note";
+      empty.textContent = "no photos yet — drop them into /photos and run node build-gallery.mjs";
+      grid.appendChild(empty);
+    } else {
+      photos.forEach((src, i) => {
+        const fig = document.createElement("figure");
+        fig.className = "shot";
+
+        const img = document.createElement("img");
+        img.src = "photos/" + src;
+        img.alt = "Photo " + String(i + 1).padStart(2, "0");
+        if (i > 0) img.loading = "lazy";
+        fig.appendChild(img);
+
+        grid.appendChild(fig);
+      });
+    }
 
     const lightbox = document.getElementById("lightbox");
     const lbImg = lightbox.querySelector("img");
 
-    document.querySelectorAll(".shot img").forEach(img => {
-      img.addEventListener("click", e => {
-        e.stopPropagation();
-        lbImg.src = img.currentSrc || img.src;
-        lbImg.alt = img.alt;
-        lightbox.classList.add("open");
-      });
+    grid.addEventListener("click", e => {
+      const img = e.target.closest(".shot img");
+      if (!img) return;
+      lbImg.src = img.currentSrc || img.src;
+      lbImg.alt = img.alt;
+      lightbox.classList.add("open");
     });
 
     function closeLightbox() {
