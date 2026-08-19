@@ -75,7 +75,7 @@
       inset: 0;
       z-index: 0;
       background: #000 no-repeat center / cover;
-      background-image: url('halftone.png');
+      background-image: url('halftone.avif');
       filter: grayscale(1) contrast(1.1) brightness(1.05);
       pointer-events: none;
     }
@@ -139,6 +139,12 @@
 
     .topbar .page-num { color: #5c5c5c; }
 
+    .topbar a.pagenav { text-decoration: none; }
+
+    .topbar a.pagenav .page-num { transition: color 0.15s ease; }
+
+    .topbar a.pagenav:hover .page-num { color: #fff; }
+
     .topbar a.back {
       font-family: var(--bitcount);
       font-size: 16px;
@@ -180,13 +186,43 @@
       aspect-ratio: 4 / 3;
       object-fit: cover;
       display: block;
-      filter: grayscale(1) contrast(1.05);
-      transition: filter 0.25s ease, transform 0.25s ease;
     }
 
-    .shot:hover img {
-      filter: grayscale(0.15) contrast(1.05);
-      transform: scale(1.02);
+    .shot { cursor: zoom-in; }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+      opacity: 0;
+      visibility: hidden;
+      transition: background-color 0.3s ease, opacity 0.3s ease;
+    }
+
+    .lightbox.open {
+      background: rgba(0, 0, 0, 0.92);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 92vh;
+      object-fit: contain;
+      transform: scale(0.5);
+      opacity: 0;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .lightbox.open img {
+      transform: scale(1);
+      opacity: 1;
     }
 
     footer {
@@ -213,56 +249,71 @@
   <div class="page">
     <nav class="topbar">
       <a class="brand" href="index.html" aria-label="indukto — back to index">indukto</a>
-      <span><span class="page-num">// 01 index</span> &nbsp;·&nbsp; // 02</span>
+      <span><a class="pagenav" href="index.html"><span class="page-num">// 01 dev</span></a> &nbsp;·&nbsp; <a class="pagenav" href="photo.html"><span class="page-num">// 02 photo</span></a></span>
       <a class="back" href="index.html">← back to index</a>
     </nav>
 
     <section class="grid" aria-label="Photo gallery">
       <figure class="shot">
-        <picture>
-          <source srcset="halftone.avif" type="image/avif" />
-          <img src="halftone.png" alt="Halftone photo 01" />
-        </picture>
+        <img src="halftone.avif" alt="Halftone photo 01" />
       </figure>
 
       <figure class="shot">
-        <picture>
-          <source srcset="liminal-halftone2.avif" type="image/avif" />
-          <img src="liminal-halftone2.png" alt="Liminal halftone photo 02" loading="lazy" />
-        </picture>
+        <img src="liminal-halftone2.avif" alt="Liminal halftone photo 02" loading="lazy" />
       </figure>
 
       <figure class="shot">
-        <picture>
-          <source srcset="liminal-halftone3.avif" type="image/avif" />
-          <img src="liminal-halftone3.png" alt="Liminal halftone photo 03" loading="lazy" />
-        </picture>
+        <img src="liminal-halftone3.avif" alt="Liminal halftone photo 03" loading="lazy" />
       </figure>
 
       <figure class="shot">
-        <picture>
-          <source srcset="liminal-halftone4.avif" type="image/avif" />
-          <img src="liminal-halftone4.png" alt="Liminal halftone photo 04" loading="lazy" />
-        </picture>
+        <img src="liminal-halftone4.avif" alt="Liminal halftone photo 04" loading="lazy" />
       </figure>
 
       <figure class="shot">
-        <picture>
-          <source srcset="liminal-halftone5.avif" type="image/avif" />
-          <img src="liminal-halftone5.png" alt="Liminal halftone photo 05" loading="lazy" />
-        </picture>
+        <img src="liminal-halftone5.avif" alt="Liminal halftone photo 05" loading="lazy" />
       </figure>
 
       <figure class="shot">
-        <img src="GrainCamera_20260715-163308.jpg" alt="Grain camera photo — Pixel 7 Pro" loading="lazy" />
+        <img src="DSC09949.avif" alt="Grain camera photo 06" loading="lazy" />
+      </figure>
+
+      <figure class="shot">
+        <img src="DSC09971.avif" alt="Grain camera photo 07" loading="lazy" />
       </figure>
     </section>
 
     <footer>© <span id="year">2026</span> indukto</footer>
   </div>
 
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Enlarged photo">
+    <img src="" alt="" />
+  </div>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = lightbox.querySelector("img");
+
+    document.querySelectorAll(".shot img").forEach(img => {
+      img.addEventListener("click", e => {
+        e.stopPropagation();
+        lbImg.src = img.currentSrc || img.src;
+        lbImg.alt = img.alt;
+        lightbox.classList.add("open");
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      lbImg.src = "";
+    }
+
+    lightbox.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") closeLightbox();
+    });
   </script>
 </body>
 </html>
