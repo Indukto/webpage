@@ -1,0 +1,19 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://indukto.eu/photos.json",
+      "service-desc": [
+        {
+          "href": "https://indukto.eu/openapi.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://indukto.eu/api.html",
+          "type": "text/html"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API docs — indukto</title>
+</head>
+<body>
+  <h1>Gallery Data API</h1>
+  <p>
+    A tiny read-only API exposing the photo gallery manifest for
+    <a href="https://indukto.eu/photo.html">indukto.eu</a>.
+  </p>
+
+  <h2>GET /photos.json</h2>
+  <p>Returns the gallery manifest as JSON.</p>
+  <pre><code>{
+  "photos": ["01-sunset.avif", "..."]
+}</code></pre>
+  <p>
+    Each entry is a filename served under
+    <code>https://indukto.eu/photos/</code>, listed in display order.
+  </p>
+
+  <h2>Machine-readable description</h2>
+  <p>
+    The OpenAPI 3.1 specification for this API lives at
+    <a href="https://indukto.eu/openapi.json">/openapi.json</a>.
+    It is discoverable via the API catalog at
+    <a href="https://indukto.eu/.well-known/api-catalog">/.well-known/api-catalog</a>
+    (<a href="https://www.rfc-editor.org/info/rfc9727">RFC 9727</a>).
+  </p>
+</body>
+</html>

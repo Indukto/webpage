@@ -2,8 +2,9 @@
 // build-gallery.mjs
 //
 // Scans the photos/ folder for image files and writes photos.js, a tiny
-// manifest that photo.html loads to render the gallery. Add or remove
-// pictures in photos/, then run:  node build-gallery.mjs
+// manifest that photo.html loads to render the gallery, and photos.json,
+// the machine-readable manifest exposed by the gallery data API.
+// Add or remove pictures in photos/, then run:  node build-gallery.mjs
 //
 // Order follows the filenames (natural sort, so "2" < "10"). Prefix a file
 // with a number to pin its position, e.g. "01-sunset.avif".
@@ -12,6 +13,7 @@ import { readdir, writeFile } from "node:fs/promises";
 
 const PHOTO_DIR = "photos";
 const OUT_FILE = "photos.js";
+const OUT_JSON = "photos.json";
 const EXTENSIONS = new Set([".avif", ".jpg", ".jpeg", ".png", ".webp", ".gif"]);
 
 const extension = (file) => file.slice(file.lastIndexOf(".")).toLowerCase();
@@ -21,4 +23,7 @@ const files = (await readdir(PHOTO_DIR))
   .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }));
 
 await writeFile(OUT_FILE, "window.PHOTOS = " + JSON.stringify(files, null, 2) + ";\n");
-console.log(`wrote ${OUT_FILE} with ${files.length} photo(s) from ${PHOTO_DIR}/`);
+await writeFile(OUT_JSON, JSON.stringify({ photos: files }, null, 2) + "\n");
+console.log(
+  `wrote ${OUT_FILE} and ${OUT_JSON} with ${files.length} photo(s) from ${PHOTO_DIR}/`,
+);

@@ -1,0 +1,38 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "indukto gallery data API",
+    "version": "1.0.0",
+    "description": "Machine-readable listing of the photo gallery published at https://indukto.eu/photo.html. Filenames are relative to https://indukto.eu/photos/ and listed in display order."
+  },
+  "servers": [{ "url": "https://indukto.eu" }],
+  "paths": {
+    "/photos.json": {
+      "get": {
+        "operationId": "listPhotos",
+        "summary": "List gallery photos",
+        "responses": {
+          "200": {
+            "description": "Photo manifest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["photos"],
+                  "properties": {
+                    "photos": {
+                      "type": "array",
+                      "items": { "type": "string" },
+                      "description": "Photo filenames under /photos/, in display order."
+                    }
+                  }
+                },
+                "example": { "photos": ["01-sunset.avif"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
