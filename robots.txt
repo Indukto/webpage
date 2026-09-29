@@ -1,0 +1,9 @@
+# robots.txt for https://indukto.eu
+# https://www.rfc-editor.org/rfc/rfc9309
+
+User-agent: *
+Allow: /
+Disallow: /private/
+Disallow: /tmp/
+
+Sitemap: https://indukto.eu/sitemap.xml
