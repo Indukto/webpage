@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Privacy Policy — Zoom Box Camera · indukto</title>
+  <meta name="description" content="Privacy policy for Zoom Box Camera by indukto — fully offline Android camera, no data collection." />
+  <link rel="alternate" type="text/markdown" href="/privacy.md" title="Markdown version" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Cpath d='M56 12 L26 56 h18 l-6 32 30-44 h-18 z' fill='white'/%3E%3C/svg%3E" />
+  <style>
+    @font-face {
+      font-family: 'VT323';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('vt323-latin-8DDBEBCC1048154132E1D78EB9B1F7850BCA1B7D857035CCF1CB4318EBC615B6.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Bitcount Single';
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('bitcount-single-latin-D8BEEC97BC60035CA483935B2B32F68601CB0CF7D752A23359E6E06AB1E0A9A8.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'LibreBarcode128';
+      src: url('LibreBarcode128Text-Regular-3404E23FFC729AD909E6679973C0EE7D07F60E4140A13BBB03464DEC758D523F.ttf') format('truetype');
+      font-display: swap;
+    }
+    :root {
+      --term: "VT323", "Courier New", monospace;
+      --bitcount: "Bitcount Single", monospace;
+      --barcode: "LibreBarcode128", monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    a, button { touch-action: manipulation; }
+    body {
+      font-family: var(--bitcount);
+      background-color: #000;
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 3px);
+      pointer-events: none;
+    }
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: calc(2rem + env(safe-area-inset-top)) calc(1.5rem + env(safe-area-inset-right)) calc(4rem + env(safe-area-inset-bottom)) calc(1.5rem + env(safe-area-inset-left));
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-family: var(--term);
+      font-size: 22px;
+      letter-spacing: 1px;
+      color: #9a9a9a;
+      margin-bottom: 2rem;
+    }
+    .topbar .brand {
+      font-family: var(--barcode);
+      font-size: 44px;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: 4px;
+      text-decoration: none;
+    }
+    .topbar a.back {
+      font-family: var(--bitcount);
+      font-size: 16px;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 10px;
+      padding: 0.5rem 0.9rem;
+    }
+    .topbar a.back:hover { background: #fff; color: #000; }
+    .doc h1 {
+      font-family: var(--term);
+      font-size: 34px;
+      letter-spacing: 1px;
+      margin-bottom: 0.25rem;
+    }
+    .doc .meta { color: #9a9a9a; font-size: 15px; line-height: 1.6; margin-bottom: 2rem; }
+    .doc .meta a { color: #fff; }
+    .doc h2 {
+      font-family: var(--term);
+      font-size: 24px;
+      color: #fff;
+      margin: 1.75rem 0 0.5rem;
+    }
+    .doc p, .doc li {
+      font-size: 17px;
+      line-height: 1.65;
+      color: #c9c9c9;
+    }
+    .doc p { margin: 0.5rem 0; }
+    .doc ul { padding-left: 1.25rem; margin: 0.5rem 0; }
+    .doc li { margin: 0.25rem 0; }
+    .doc a { color: #fff; }
+    .doc .summary {
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      background: #141414;
+      padding: 1rem 1.1rem;
+      margin: 1rem 0 0.5rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #7a7a7a;
+      letter-spacing: 1px;
+      margin-top: 2.5rem;
+    }
+    footer a { color: #9a9a9a; }
+    @media (max-width: 480px) {
+      .topbar .brand { font-size: 36px; }
+      .doc h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="topbar">
+      <a class="brand" href="index.html" aria-label="indukto — back to index">indukto</a>
+      <a class="back" href="index.html">← back to index</a>
+    </nav>
+    <main class="doc">
+      <h1>Privacy Policy — Zoom Box Camera</h1>
+      <p class="meta"><strong>Effective date:</strong> October 12, 2026<br />
+      <strong>App:</strong> Zoom Box Camera (Android, API 29+) · <a href="https://github.com/Indukto/zoom-box">source code</a><br />
+      <strong>Developer:</strong> indukto — https://indukto.eu<br />
+      <strong>Contact:</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+
+      <div class="summary">
+        <p><strong>Summary:</strong> Zoom Box Camera is fully offline. It collects, transmits, shares, and sells <strong>no personal data</strong>. No accounts, no ads, no analytics, no trackers, no crash reporting. The app declares no <code>INTERNET</code> permission, so Android blocks all network access.</p>
+      </div>
+
+      <h2>Data we collect</h2>
+      <p>None. We do not collect, store on servers, or have access to names, emails, identifiers, location data, usage analytics, diagnostics, or advertising data.</p>
+
+      <h2>On-device processing only</h2>
+      <ul>
+        <li>Camera frames, photos (JPEG + optional DNG RAW), and settings stay on your device.</li>
+        <li>Film processing (3D LUTs, grain, vignette, double exposure) runs locally — nothing is uploaded.</li>
+        <li>Sharing happens only when you tap Share, via Android's system share sheet.</li>
+      </ul>
+
+      <h2>Permissions used</h2>
+      <ul>
+        <li><code>CAMERA</code> — to take photos (required).</li>
+        <li>Storage / media access — to save photos and show the in-app gallery. No other files are accessed.</li>
+        <li>No microphone, contacts, phone, or location permissions. No GPS tags in photo EXIF.</li>
+      </ul>
+
+      <h2>Third parties</h2>
+      <p>No third-party SDKs. No data shared with third parties. Google Play may independently process install statistics — see <a href="https://policies.google.com/privacy">Google Play's privacy policy</a>.</p>
+
+      <h2>Children</h2>
+      <p>The app collects no data from anyone, including children under 13.</p>
+
+      <h2>Your rights (GDPR / EU)</h2>
+      <p>We hold no personal data about you, so there is nothing to access or delete on our servers. Emails to info@indukto.eu are used only to handle your request. You may complain to your local data protection authority.</p>
+
+      <h2>Security &amp; retention</h2>
+      <p>Photos stay under your control — delete them in-app or in the system gallery any time. Uninstalling removes the app's private data and settings.</p>
+
+      <h2>Changes</h2>
+      <p>If the app changes in a privacy-relevant way, this page and the in-app copy (Settings → Legal) will be updated. Continued use means you accept the updated policy.</p>
+
+      <h2>Contact</h2>
+      <p>Privacy questions: <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+    </main>
+    <footer>© <span id="year">2026</span> indukto · <a href="privacy.html">privacy</a></footer>
+  </div>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

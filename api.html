@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gallery Data API — machine-readable photo gallery manifest.">
+  <link rel="alternate" type="text/markdown" href="/api.md" title="Markdown version">
   <title>API docs — indukto</title>
 </head>
 <body>
@@ -21,6 +23,9 @@
     Each entry is a filename served under
     <code>https://indukto.eu/photos/</code>, listed in display order.
   </p>
+
+  <h2>GET /status.json</h2>
+  <p>Returns service health as JSON (<code>{"status": "ok"}</code>).</p>
 
   <h2>Machine-readable description</h2>
   <p>

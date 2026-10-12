@@ -13,6 +13,12 @@
           "href": "https://indukto.eu/api.html",
           "type": "text/html"
         }
+      ],
+      "status": [
+        {
+          "href": "https://indukto.eu/status.json",
+          "type": "application/json"
+        }
       ]
     }
   ]

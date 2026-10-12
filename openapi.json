@@ -33,6 +33,32 @@
           }
         }
       }
+    },
+    "/status.json": {
+      "get": {
+        "operationId": "getStatus",
+        "summary": "Service health",
+        "responses": {
+          "200": {
+            "description": "Health indication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status"],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Health status, e.g. ok."
+                    }
+                  }
+                },
+                "example": { "status": "ok" }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

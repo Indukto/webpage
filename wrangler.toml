@@ -1,0 +1,16 @@
+# Cloudflare Worker: Markdown for Agents (indukto.eu)
+# Deploy with: npx wrangler deploy
+# Requires a Cloudflare API token (Workers + Zone Routes edit) or Dashboard > Workers > Import repository.
+# Route must be attached to the indukto.eu zone so Accept: text/markdown is negotiated at the edge.
+# Preferred zero-code alternative (Pro/Business/Enterprise): enable
+# "Markdown for Agents" in Dashboard > AI Crawl Control instead of deploying this Worker.
+
+name = "indukto-markdown-negotiation"
+main = "worker/markdown-negotiation.js"
+compatibility_date = "2026-09-01"
+
+# Serve at the apex + www. Adjust if the zone uses a different hostname.
+routes = [
+  { pattern = "indukto.eu/*", zone_name = "indukto.eu" },
+  { pattern = "www.indukto.eu/*", zone_name = "indukto.eu" }
+]
