@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Privacy Policy — Zoom Box Camera · indukto</title>
-  <meta name="description" content="Privacy policy for Zoom Box Camera by indukto — fully offline Android camera, no data collection." />
+  <meta name="description" content="Privacy policy for Zoom Box Camera by indukto — fully offline Android camera, no data collection. Available in English, Deutsch, Français, Español, Italiano, Polski." />
   <link rel="alternate" type="text/markdown" href="/privacy.md" title="Markdown version" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Cpath d='M56 12 L26 56 h18 l-6 32 30-44 h-18 z' fill='white'/%3E%3C/svg%3E" />
   <style>
@@ -68,7 +68,7 @@
       font-size: 22px;
       letter-spacing: 1px;
       color: #9a9a9a;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .topbar .brand {
       font-family: var(--barcode);
@@ -78,23 +78,13 @@
       letter-spacing: 4px;
       text-decoration: none;
     }
-    .topbar a.back {
-      font-family: var(--bitcount);
-      font-size: 16px;
-      color: #fff;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 10px;
-      padding: 0.5rem 0.9rem;
-    }
-    .topbar a.back:hover { background: #fff; color: #000; }
     .doc h1 {
       font-family: var(--term);
       font-size: 34px;
       letter-spacing: 1px;
       margin-bottom: 0.25rem;
     }
-    .doc .meta { color: #9a9a9a; font-size: 15px; line-height: 1.6; margin-bottom: 2rem; }
+    .doc .meta { color: #9a9a9a; font-size: 15px; line-height: 1.6; margin-bottom: 1.5rem; }
     .doc .meta a { color: #fff; }
     .doc h2 {
       font-family: var(--term);
@@ -111,13 +101,7 @@
     .doc ul { padding-left: 1.25rem; margin: 0.5rem 0; }
     .doc li { margin: 0.25rem 0; }
     .doc a { color: #fff; }
-    .doc .summary {
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 12px;
-      background: #141414;
-      padding: 1rem 1.1rem;
-      margin: 1rem 0 0.5rem;
-    }
+    .doc section[hidden] { display: none; }
     footer {
       text-align: center;
       font-size: 16px;
@@ -137,56 +121,295 @@
   <div class="page">
     <nav class="topbar">
       <a class="brand" href="index.html" aria-label="indukto — back to index">indukto</a>
-      <a class="back" href="index.html">← back to index</a>
     </nav>
     <main class="doc">
-      <h1>Privacy Policy — Zoom Box Camera</h1>
-      <p class="meta"><strong>Effective date:</strong> October 12, 2026<br />
-      <strong>App:</strong> Zoom Box Camera (Android, API 29+) · <a href="https://github.com/Indukto/zoom-box">source code</a><br />
-      <strong>Developer:</strong> indukto — https://indukto.eu<br />
-      <strong>Contact:</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+      <section id="lang-en" lang="en">
+        <h1>Privacy Policy — Zoom Box Camera</h1>
+        <p class="meta"><strong>Effective date:</strong> October 12, 2026<br />
+        <strong>App:</strong> Zoom Box Camera (Android, API 29+)<br />
+        <strong>Developer:</strong> indukto — https://indukto.eu<br />
+        <strong>Contact:</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
 
-      <div class="summary">
-        <p><strong>Summary:</strong> Zoom Box Camera is fully offline. It collects, transmits, shares, and sells <strong>no personal data</strong>. No accounts, no ads, no analytics, no trackers, no crash reporting. The app declares no <code>INTERNET</code> permission, so Android blocks all network access.</p>
-      </div>
+        <h2>Data we collect</h2>
+        <p>None. We do not collect, store on servers, or have access to names, emails, identifiers, location data, usage analytics, diagnostics, or advertising data.</p>
+        <p>The app declares no <code>INTERNET</code> permission, so Android blocks all network access. No accounts, no ads, no analytics, no trackers, no crash reporting.</p>
 
-      <h2>Data we collect</h2>
-      <p>None. We do not collect, store on servers, or have access to names, emails, identifiers, location data, usage analytics, diagnostics, or advertising data.</p>
+        <h2>On-device processing only</h2>
+        <ul>
+          <li>Camera frames, photos (JPEG + optional DNG RAW), and settings stay on your device.</li>
+          <li>Film processing (3D LUTs, grain, vignette, double exposure) runs locally — nothing is uploaded.</li>
+          <li>Sharing happens only when you tap Share, via Android's system share sheet.</li>
+        </ul>
 
-      <h2>On-device processing only</h2>
-      <ul>
-        <li>Camera frames, photos (JPEG + optional DNG RAW), and settings stay on your device.</li>
-        <li>Film processing (3D LUTs, grain, vignette, double exposure) runs locally — nothing is uploaded.</li>
-        <li>Sharing happens only when you tap Share, via Android's system share sheet.</li>
-      </ul>
+        <h2>Permissions used</h2>
+        <ul>
+          <li><code>CAMERA</code> — to take photos (required).</li>
+          <li>Storage / media access — to save photos and show the in-app gallery. No other files are accessed.</li>
+          <li>No microphone, contacts, phone, or location permissions. No GPS tags in photo EXIF.</li>
+        </ul>
 
-      <h2>Permissions used</h2>
-      <ul>
-        <li><code>CAMERA</code> — to take photos (required).</li>
-        <li>Storage / media access — to save photos and show the in-app gallery. No other files are accessed.</li>
-        <li>No microphone, contacts, phone, or location permissions. No GPS tags in photo EXIF.</li>
-      </ul>
+        <h2>Third parties</h2>
+        <p>No third-party SDKs. No data shared with third parties. Google Play may independently process install statistics — see <a href="https://policies.google.com/privacy">Google Play's privacy policy</a>.</p>
 
-      <h2>Third parties</h2>
-      <p>No third-party SDKs. No data shared with third parties. Google Play may independently process install statistics — see <a href="https://policies.google.com/privacy">Google Play's privacy policy</a>.</p>
+        <h2>Children</h2>
+        <p>The app collects no data from anyone, including children under 13.</p>
 
-      <h2>Children</h2>
-      <p>The app collects no data from anyone, including children under 13.</p>
+        <h2>Your rights (GDPR / EU)</h2>
+        <p>We hold no personal data about you, so there is nothing to access or delete on our servers. Emails to info@indukto.eu are used only to handle your request. You may complain to your local data protection authority.</p>
 
-      <h2>Your rights (GDPR / EU)</h2>
-      <p>We hold no personal data about you, so there is nothing to access or delete on our servers. Emails to info@indukto.eu are used only to handle your request. You may complain to your local data protection authority.</p>
+        <h2>Security &amp; retention</h2>
+        <p>Photos stay under your control — delete them in-app or in the system gallery any time. Uninstalling removes the app's private data and settings.</p>
 
-      <h2>Security &amp; retention</h2>
-      <p>Photos stay under your control — delete them in-app or in the system gallery any time. Uninstalling removes the app's private data and settings.</p>
+        <h2>Changes</h2>
+        <p>If the app changes in a privacy-relevant way, this page and the in-app copy (Settings → Legal) will be updated. Continued use means you accept the updated policy.</p>
 
-      <h2>Changes</h2>
-      <p>If the app changes in a privacy-relevant way, this page and the in-app copy (Settings → Legal) will be updated. Continued use means you accept the updated policy.</p>
+        <h2>Contact</h2>
+        <p>Privacy questions: <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+      </section>
+      <section id="lang-de" lang="de" hidden>
+        <h1>Datenschutzerklärung — Zoom Box Camera</h1>
+        <p class="meta"><strong>Gültig ab:</strong> 12. Oktober 2026<br />
+        <strong>App:</strong> Zoom Box Camera (Android, API 29+)<br />
+        <strong>Entwickler:</strong> indukto — https://indukto.eu<br />
+        <strong>Kontakt:</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
 
-      <h2>Contact</h2>
-      <p>Privacy questions: <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+        <h2>Erhobene Daten</h2>
+        <p>Keine. Wir erheben und speichern keine personenbezogenen Daten und haben keinen Zugriff darauf: keine Namen, E-Mails, Kennungen, Standortdaten, Nutzungsanalysen, Diagnosedaten oder Werbedaten.</p>
+        <p>Die App erklärt keine <code>INTERNET</code>-Berechtigung — Android blockiert daher jeglichen Netzwerkzugriff. Keine Konten, keine Werbung, keine Analyse-Tools, keine Tracker, keine Absturzberichte.</p>
+
+        <h2>Nur Verarbeitung auf dem Gerät</h2>
+        <ul>
+          <li>Kamerabilder, Fotos (JPEG + optional DNG RAW) und Einstellungen bleiben auf Ihrem Gerät.</li>
+          <li>Die Filmbearbeitung (3D-LUTs, Korn, Vignette, Doppelbelichtung) läuft lokal — nichts wird hochgeladen.</li>
+          <li>Das Teilen erfolgt nur, wenn Sie auf Teilen tippen, über den System-Teilen-Dialog von Android.</li>
+        </ul>
+
+        <h2>Verwendete Berechtigungen</h2>
+        <ul>
+          <li><code>CAMERA</code> — zum Aufnehmen von Fotos (erforderlich).</li>
+          <li>Speicher-/Medienzugriff — zum Speichern von Fotos und für die In-App-Galerie. Auf sonstige Dateien wird nicht zugegriffen.</li>
+          <li>Keine Mikrofon-, Kontakt-, Telefon- oder Standortberechtigungen. Keine GPS-Tags in den EXIF-Daten.</li>
+        </ul>
+
+        <h2>Dritte</h2>
+        <p>Keine SDKs von Drittanbietern. Keine Datenweitergabe an Dritte. Google Play verarbeitet ggf. eigenständig Installationsstatistiken — siehe <a href="https://policies.google.com/privacy?hl=de">Datenschutzerklärung von Google Play</a>.</p>
+
+        <h2>Kinder</h2>
+        <p>Die App erhebt keine Daten — auch nicht von Kindern unter 13 Jahren.</p>
+
+        <h2>Ihre Rechte (DSGVO / EU)</h2>
+        <p>Da wir keine personenbezogenen Daten über Sie speichern, gibt es nichts abzurufen oder zu löschen. E-Mails an info@indukto.eu verwenden wir nur zur Bearbeitung Ihrer Anfrage. Sie können sich auch bei Ihrer zuständigen Datenschutzaufsichtsbehörde beschweren.</p>
+
+        <h2>Sicherheit &amp; Speicherdauer</h2>
+        <p>Ihre Fotos bleiben unter Ihrer Kontrolle — löschen Sie sie jederzeit in der In-App-Galerie oder Systemgalerie. Durch Deinstallation werden die privaten App-Daten und Einstellungen entfernt.</p>
+
+        <h2>Änderungen</h2>
+        <p>Bei datenschutzrelevanten Änderungen wird diese Seite und die In-App-Fassung (Einstellungen → Rechtliches) aktualisiert. Die weitere Nutzung gilt als Zustimmung zur aktualisierten Fassung.</p>
+
+        <h2>Kontakt</h2>
+        <p>Fragen zum Datenschutz: <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+      </section>
+      <section id="lang-fr" lang="fr" hidden>
+        <h1>Politique de confidentialité — Zoom Box Camera</h1>
+        <p class="meta"><strong>Date d'effet :</strong> 12 octobre 2026<br />
+        <strong>Application :</strong> Zoom Box Camera (Android, API 29+)<br />
+        <strong>Développeur :</strong> indukto — https://indukto.eu<br />
+        <strong>Contact :</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+
+        <h2>Données collectées</h2>
+        <p>Aucune. Nous ne collectons et ne stockons aucune donnée personnelle : ni noms, e-mails, identifiants, données de localisation, analyses d'utilisation, diagnostics ou données publicitaires.</p>
+        <p>L'application ne déclare aucune autorisation <code>INTERNET</code> — Android bloque donc tout accès réseau. Pas de comptes, pas de publicités, pas d'analyses, pas de traceurs, pas de rapports de plantage.</p>
+
+        <h2>Traitement uniquement sur l'appareil</h2>
+        <ul>
+          <li>Images caméra, photos (JPEG + DNG RAW en option) et réglages restent sur votre appareil.</li>
+          <li>Le traitement argentique (LUT 3D, grain, vignettage, double exposition) s'exécute localement — rien n'est téléversé.</li>
+          <li>Le partage n'a lieu que lorsque vous touchez Partager, via la feuille de partage système d'Android.</li>
+        </ul>
+
+        <h2>Autorisations utilisées</h2>
+        <ul>
+          <li><code>CAMERA</code> — pour prendre des photos (requise).</li>
+          <li>Accès stockage / médias — pour enregistrer les photos et afficher la galerie intégrée. Aucun autre fichier n'est lu.</li>
+          <li>Aucune autorisation microphone, contacts, téléphone ou localisation. Aucune balise GPS dans les données EXIF.</li>
+        </ul>
+
+        <h2>Tiers</h2>
+        <p>Aucun SDK tiers. Aucune donnée partagée avec des tiers. Google Play peut traiter des statistiques d'installation de son côté — voir les <a href="https://policies.google.com/privacy?hl=fr">règles de confidentialité de Google Play</a>.</p>
+
+        <h2>Enfants</h2>
+        <p>L'application ne collecte aucune donnée, y compris auprès des enfants de moins de 13 ans.</p>
+
+        <h2>Vos droits (RGPD / UE)</h2>
+        <p>Nous ne détenons aucune donnée personnelle vous concernant : il n'y a donc rien à consulter ni à supprimer sur nos serveurs. Les e-mails adressés à info@indukto.eu servent uniquement à traiter votre demande. Vous pouvez également déposer une réclamation auprès de votre autorité de protection des données.</p>
+
+        <h2>Sécurité et conservation</h2>
+        <p>Vos photos restent sous votre contrôle — supprimez-les à tout moment dans la galerie intégrée ou la galerie système. La désinstallation supprime les données privées et les réglages de l'application.</p>
+
+        <h2>Modifications</h2>
+        <p>En cas de changement ayant un impact sur la confidentialité, cette page et la version intégrée (Paramètres → Mentions légales) seront mises à jour. Continuer à utiliser l'application vaut acceptation de la version mise à jour.</p>
+
+        <h2>Contact</h2>
+        <p>Questions sur la confidentialité : <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+      </section>
+      <section id="lang-es" lang="es" hidden>
+        <h1>Política de privacidad — Zoom Box Camera</h1>
+        <p class="meta"><strong>Fecha de vigencia:</strong> 12 de octubre de 2026<br />
+        <strong>Aplicación:</strong> Zoom Box Camera (Android, API 29+)<br />
+        <strong>Desarrollador:</strong> indukto — https://indukto.eu<br />
+        <strong>Contacto:</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+
+        <h2>Datos recopilados</h2>
+        <p>Ninguno. No recopilamos ni almacenamos datos personales: ni nombres, correos, identificadores, datos de ubicación, analíticas de uso, diagnósticos o datos publicitarios.</p>
+        <p>La aplicación no declara el permiso <code>INTERNET</code>, por lo que Android bloquea todo acceso a la red. Sin cuentas, sin anuncios, sin analíticas, sin rastreadores, sin informes de fallos.</p>
+
+        <h2>Procesamiento solo en el dispositivo</h2>
+        <ul>
+          <li>Imágenes de cámara, fotos (JPEG + DNG RAW opcional) y ajustes permanecen en tu dispositivo.</li>
+          <li>El procesado de película (LUT 3D, grano, viñeta, doble exposición) se ejecuta localmente — no se sube nada.</li>
+          <li>Compartir solo ocurre cuando tocas Compartir, mediante la hoja de compartir del sistema Android.</li>
+        </ul>
+
+        <h2>Permisos utilizados</h2>
+        <ul>
+          <li><code>CAMERA</code> — para tomar fotos (obligatorio).</li>
+          <li>Acceso a almacenamiento / medios — para guardar fotos y mostrar la galería integrada. No se accede a ningún otro archivo.</li>
+          <li>Sin permisos de micrófono, contactos, teléfono ni ubicación. Sin etiquetas GPS en los datos EXIF.</li>
+        </ul>
+
+        <h2>Terceros</h2>
+        <p>Sin SDK de terceros. Ningún dato se comparte con terceros. Google Play puede procesar estadísticas de instalación por su cuenta — consulta la <a href="https://policies.google.com/privacy?hl=es">política de privacidad de Google Play</a>.</p>
+
+        <h2>Menores</h2>
+        <p>La aplicación no recopila datos de nadie, incluidos menores de 13 años.</p>
+
+        <h2>Tus derechos (RGPD / UE)</h2>
+        <p>Como no almacenamos datos personales sobre ti, no hay nada que consultar ni eliminar en nuestros servidores. Los correos a info@indukto.eu solo se usan para atender tu solicitud. También puedes reclamar ante tu autoridad de protección de datos.</p>
+
+        <h2>Seguridad y conservación</h2>
+        <p>Tus fotos siguen bajo tu control — elimínalas cuando quieras en la galería integrada o del sistema. Desinstalar elimina los datos privados y ajustes de la aplicación.</p>
+
+        <h2>Cambios</h2>
+        <p>Si la aplicación cambia de forma relevante para la privacidad, esta página y la copia integrada (Ajustes → Legal) se actualizarán. Seguir usándola implica aceptar la versión actualizada.</p>
+
+        <h2>Contacto</h2>
+        <p>Preguntas sobre privacidad: <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+      </section>
+      <section id="lang-it" lang="it" hidden>
+        <h1>Informativa sulla privacy — Zoom Box Camera</h1>
+        <p class="meta"><strong>Data di decorrenza:</strong> 12 ottobre 2026<br />
+        <strong>App:</strong> Zoom Box Camera (Android, API 29+)<br />
+        <strong>Sviluppatore:</strong> indukto — https://indukto.eu<br />
+        <strong>Contatto:</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+
+        <h2>Dati raccolti</h2>
+        <p>Nessuno. Non raccogliamo né conserviamo dati personali: né nomi, email, identificativi, dati di posizione, analisi di utilizzo, diagnostica o dati pubblicitari.</p>
+        <p>L'app non dichiara l'autorizzazione <code>INTERNET</code> — Android blocca quindi qualsiasi accesso alla rete. Nessun account, nessuna pubblicità, nessuna analisi, nessun tracker, nessuna segnalazione di arresti anomali.</p>
+
+        <h2>Solo elaborazione sul dispositivo</h2>
+        <ul>
+          <li>Immagini della fotocamera, foto (JPEG + DNG RAW facoltativo) e impostazioni restano sul tuo dispositivo.</li>
+          <li>L'elaborazione pellicola (LUT 3D, grana, vignettatura, doppia esposizione) avviene localmente — nulla viene caricato.</li>
+          <li>La condivisione avviene solo quando tocchi Condividi, tramite il foglio di condivisione di sistema di Android.</li>
+        </ul>
+
+        <h2>Autorizzazioni utilizzate</h2>
+        <ul>
+          <li><code>CAMERA</code> — per scattare foto (obbligatoria).</li>
+          <li>Accesso ad archiviazione / media — per salvare le foto e mostrare la galleria integrata. Nessun altro file viene letto.</li>
+          <li>Nessuna autorizzazione microfono, contatti, telefono o posizione. Nessun tag GPS nei dati EXIF.</li>
+        </ul>
+
+        <h2>Terze parti</h2>
+        <p>Nessun SDK di terze parti. Nessun dato condiviso con terzi. Google Play può elaborare statistiche di installazione per conto proprio — vedi le <a href="https://policies.google.com/privacy?hl=it">norme sulla privacy di Google Play</a>.</p>
+
+        <h2>Minori</h2>
+        <p>L'app non raccoglie dati di nessuno, inclusi i minori di 13 anni.</p>
+
+        <h2>I tuoi diritti (GDPR / UE)</h2>
+        <p>Poiché non conserviamo dati personali che ti riguardano, non c'è nulla da consultare o eliminare sui nostri server. Le email a info@indukto.eu servono solo a gestire la tua richiesta. Puoi anche presentare reclamo alla tua autorità per la protezione dei dati.</p>
+
+        <h2>Sicurezza e conservazione</h2>
+        <p>Le tue foto restano sotto il tuo controllo — eliminale quando vuoi nella galleria integrata o di sistema. La disinstallazione rimuove i dati privati e le impostazioni dell'app.</p>
+
+        <h2>Modifiche</h2>
+        <p>In caso di modifiche rilevanti per la privacy, questa pagina e la copia integrata (Impostazioni → Note legali) saranno aggiornate. Continuare a usare l'app equivale ad accettare la versione aggiornata.</p>
+
+        <h2>Contatto</h2>
+        <p>Domande sulla privacy: <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+      </section>
+      <section id="lang-pl" lang="pl" hidden>
+        <h1>Polityka prywatności — Zoom Box Camera</h1>
+        <p class="meta"><strong>Data wejścia w życie:</strong> 12 października 2026<br />
+        <strong>Aplikacja:</strong> Zoom Box Camera (Android, API 29+)<br />
+        <strong>Deweloper:</strong> indukto — https://indukto.eu<br />
+        <strong>Kontakt:</strong> <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+
+        <h2>Zbierane dane</h2>
+        <p>Brak. Nie zbieramy ani nie przechowujemy danych osobowych: żadnych nazwisk, adresów e-mail, identyfikatorów, danych lokalizacyjnych, analityki użytkowania, diagnostyki ani danych reklamowych.</p>
+        <p>Aplikacja nie deklaruje uprawnienia <code>INTERNET</code> — system Android blokuje zatem wszelki dostęp do sieci. Brak kont, reklam, analityki, trackerów i raportów o awariach.</p>
+
+        <h2>Przetwarzanie wyłącznie na urządzeniu</h2>
+        <ul>
+          <li>Obrazy z kamery, zdjęcia (JPEG + opcjonalnie DNG RAW) i ustawienia pozostają na Twoim urządzeniu.</li>
+          <li>Obróbka filmowa (LUT 3D, ziarno, winietowanie, podwójna ekspozycja) odbywa się lokalnie — nic nie jest przesyłane.</li>
+          <li>Udostępnianie następuje tylko po dotknięciu Udostępnij, przez systemowy arkusz udostępniania Androida.</li>
+        </ul>
+
+        <h2>Używane uprawnienia</h2>
+        <ul>
+          <li><code>CAMERA</code> — do robienia zdjęć (wymagane).</li>
+          <li>Dostęp do pamięci / multimediów — do zapisywania zdjęć i wyświetlania galerii w aplikacji. Żadne inne pliki nie są odczytywane.</li>
+          <li>Brak uprawnień mikrofonu, kontaktów, telefonu i lokalizacji. Brak tagów GPS w danych EXIF.</li>
+        </ul>
+
+        <h2>Podmioty trzecie</h2>
+        <p>Brak SDK podmiotów trzecich. Żadne dane nie są udostępniane osobom trzecim. Google Play może niezależnie przetwarzać statystyki instalacji — zobacz <a href="https://policies.google.com/privacy?hl=pl">politykę prywatności Google Play</a>.</p>
+
+        <h2>Dzieci</h2>
+        <p>Aplikacja nie zbiera danych o nikim, w tym o dzieciach poniżej 13. roku życia.</p>
+
+        <h2>Twoje prawa (RODO / UE)</h2>
+        <p>Ponieważ nie przechowujemy żadnych Twoich danych osobowych, na naszych serwerach nie ma nic do wglądu ani usunięcia. Wiadomości na adres info@indukto.eu służą wyłącznie obsłudze Twojego zapytania. Możesz też złożyć skargę do swojego organu ochrony danych.</p>
+
+        <h2>Bezpieczeństwo i przechowywanie</h2>
+        <p>Twoje zdjęcia pozostają pod Twoją kontrolą — usuń je w dowolnym momencie w galerii aplikacji lub systemowej. Odinstalowanie usuwa prywatne dane i ustawienia aplikacji.</p>
+
+        <h2>Zmiany</h2>
+        <p>W razie zmian istotnych dla prywatności ta strona oraz kopia w aplikacji (Ustawienia → Informacje prawne) zostaną zaktualizowane. Dalsze korzystanie oznacza akceptację zaktualizowanej wersji.</p>
+
+        <h2>Kontakt</h2>
+        <p>Pytania dotyczące prywatności: <a href="mailto:info@indukto.eu">info@indukto.eu</a></p>
+      </section>
     </main>
-    <footer>© <span id="year">2026</span> indukto · <a href="privacy.html">privacy</a></footer>
+    <footer>© <span id="year">2026</span> indukto · <a href="#en">EN</a> · <a href="#de">DE</a> · <a href="#fr">FR</a> · <a href="#es">ES</a> · <a href="#it">IT</a> · <a href="#pl">PL</a></footer>
   </div>
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const LANGS = ["en", "de", "fr", "es", "it", "pl"];
+    function langFromHash() {
+      const h = (location.hash || "").replace("#", "").toLowerCase();
+      return LANGS.indexOf(h) !== -1 ? h : null;
+    }
+    function detectLang() {
+      const prefs = navigator.languages || [navigator.language || "en"];
+      for (let i = 0; i < prefs.length; i++) {
+        const base = (prefs[i] || "en").toLowerCase().split("-")[0];
+        if (LANGS.indexOf(base) !== -1) return base;
+      }
+      return "en";
+    }
+    function setLang(lang) {
+      if (LANGS.indexOf(lang) === -1) lang = "en";
+      LANGS.forEach(l => { document.getElementById("lang-" + l).hidden = l !== lang; });
+      document.documentElement.lang = lang;
+    }
+    // Explicit #hash wins (used by footer links); otherwise follow the browser language.
+    setLang(langFromHash() || detectLang());
+    window.addEventListener("hashchange", () => {
+      const l = langFromHash();
+      if (l) setLang(l);
+    });
+  </script>
 </body>
 </html>
