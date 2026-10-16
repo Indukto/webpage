@@ -9,7 +9,7 @@ description: indukto — Android apps on Google Play and open-source projects on
 
 ## Links
 
-- [GOOGLE PLAY — browse all my apps](https://play.google.com/store/apps/dev?id=YOUR_DEV_ID)
+- [GOOGLE PLAY — browse all my apps](https://play.google.com/store/apps/dev?id=8945801315617999625)
 - [GITHUB — check out my projects](https://github.com/Indukto)
 
 ## Projects
