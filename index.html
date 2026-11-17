@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>indukto — Apps &amp; Code</title>
-  <meta name="description" content="indukto — Android apps on Google Play and open-source projects on GitHub." />
+  <title>indukto — ZoomBox Camera &amp; experiments</title>
+  <meta name="description" content="indukto — ZoomBox Camera: Film Camera for Android, with a 1×–5× zoom-box viewfinder and 13 film-inspired looks. Plus open-source experiments on GitHub." />
   <link rel="alternate" type="text/markdown" href="/index.md" title="Markdown version" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Cpath d='M56 12 L26 56 h18 l-6 32 30-44 h-18 z' fill='white'/%3E%3C/svg%3E" />
   <style>
-    @font-face {
-      font-family: 'Press Start 2P';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url('pressstart2p-latin-AFEC86997FDAF54AF1F59358FA2C1E2A0F1D04146EDAD18E5CD141D0384A7548.woff2') format('woff2');
-      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-
     @font-face {
       font-family: 'VT323';
       font-style: normal;
@@ -55,47 +44,61 @@
     }
 
     :root {
-      --pixel: "Press Start 2P", "Courier New", monospace;
+      --ink: #0b0b0b;
+      --paper: #e8e6e1;
+      --dim: #8c8a85;
+      --line: rgba(232, 230, 225, 0.16);
+      --barcode: "LibreBarcode128", "Courier New", monospace;
       --term: "VT323", "Courier New", monospace;
       --bitcount: "Bitcount Single", monospace;
-      --barcode: "LibreBarcode128", monospace;
-      --step: 8px;
+      --gutter: clamp(1rem, 4vw, 2.5rem);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    a, button { touch-action: manipulation; }
-
-    body { -webkit-tap-highlight-color: transparent; }
-
     html {
-      scroll-snap-type: y mandatory;
-      overscroll-behavior-y: none;
-      scroll-behavior: smooth;
       -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: var(--bitcount);
-      background-color: #000;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 0;
-      position: relative;
+      background: var(--ink);
+      color: var(--paper);
+      line-height: 1.5;
       overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* the photo itself, used directly as the background */
+    a, button { touch-action: manipulation; }
+
+    ::selection { background: var(--paper); color: var(--ink); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    a:focus-visible {
+      outline: 2px dashed var(--paper);
+      outline-offset: 4px;
+    }
+
+    /* --- background: halftone photo, darkened, with scanlines ------------- */
     .bg {
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: #000 no-repeat center / cover;
-      filter: grayscale(1) contrast(1.1) brightness(1.05);
+      background: #000 url('photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif') center / cover no-repeat;
+      filter: grayscale(1) contrast(1.15) brightness(0.65);
+      opacity: 0.32;
       pointer-events: none;
     }
 
@@ -103,574 +106,803 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.4) 100%);
       z-index: 0;
+      background: radial-gradient(120% 85% at 50% 0%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.92) 68%, #000 100%);
       pointer-events: none;
     }
 
-    /* CRT scanlines over everything */
     body::after {
       content: "";
       position: fixed;
       inset: 0;
-      z-index: 5;
+      z-index: 9;
       background: repeating-linear-gradient(
         to bottom,
-        rgba(255,255,255,0.035) 0px,
-        rgba(255,255,255,0.035) 1px,
+        rgba(255, 255, 255, 0.035) 0px,
+        rgba(255, 255, 255, 0.035) 1px,
         transparent 1px,
         transparent 3px
       );
       pointer-events: none;
     }
 
-
-    
-
-    .pixel-corners {
-      clip-path: polygon(
-        0 var(--step), calc(var(--step) / 2) var(--step), calc(var(--step) / 2) calc(var(--step) / 2), var(--step) calc(var(--step) / 2), var(--step) 0,
-        calc(100% - var(--step)) 0, calc(100% - var(--step)) calc(var(--step) / 2), calc(100% - var(--step) / 2) calc(var(--step) / 2), calc(100% - var(--step) / 2) var(--step), 100% var(--step),
-        100% calc(100% - var(--step)), calc(100% - var(--step) / 2) calc(100% - var(--step)), calc(100% - var(--step) / 2) calc(100% - var(--step) / 2), calc(100% - var(--step)) calc(100% - var(--step) / 2), calc(100% - var(--step)) 100%,
-        var(--step) 100%, var(--step) calc(100% - var(--step) / 2), calc(var(--step) / 2) calc(100% - var(--step) / 2), calc(var(--step) / 2) calc(100% - var(--step)), 0 calc(100% - var(--step))
-      );
-    }
-
-    .card {
-      background-color: rgba(17, 17, 17, 1);
-      background-image:
-        radial-gradient(circle at center, rgba(26, 26, 26, 0.85) 1px, transparent 1px);
-      background-size: 6px 6px;
-      border: none;
-      border-radius: 18px;
-      padding: 2.5rem 2.25rem 2rem;
-      max-width: 440px;
-      width: 100%;
-      text-align: center;
-      filter: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    /* --- layout ---------------------------------------------------------- */
+    .wrap {
+      position: relative;
       z-index: 1;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.06);
-      max-height: calc(100vh - 2rem);
-      max-height: calc(100svh - 2rem);
-      overflow-y: auto;
-      overflow-x: hidden;
-      overscroll-behavior: contain;
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
     }
 
-    .ascii {
-      font-family: var(--term);
-      font-size: 14px;
-      line-height: 1.05;
-      color: #fff;
-      margin: 0 auto 1.5rem;
-      text-align: center;
-      user-select: none;
+    /* --- top bar --------------------------------------------------------- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      background: rgba(11, 11, 11, 0.82);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      padding-top: 0.55rem;
+      padding-bottom: 0.55rem;
+    }
+
+    .wordmark {
+      font-family: var(--barcode);
+      font-size: 38px;
+      line-height: 1;
+      letter-spacing: 4px;
+      color: var(--paper);
+      text-decoration: none;
+      padding-top: 0.3rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      font-family: var(--term);
+      font-size: 20px;
+      letter-spacing: 0.09em;
+    }
+
+    .nav a {
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .nav a:hover { color: var(--paper); }
+
+    /* --- hero ------------------------------------------------------------ */
+    .hero {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 2rem;
+      min-height: calc(100svh - 3.6rem);
+      padding-top: clamp(1.5rem, 4vh, 2.5rem);
+      padding-bottom: clamp(2rem, 5vh, 3.25rem);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.6rem;
+      font-family: var(--term);
+      font-size: 19px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .hero-meta span::before {
+      content: "//";
+      color: var(--paper);
+      opacity: 0.5;
+      margin-right: 0.5rem;
+    }
+
+    .hero-main { align-self: center; }
 
     h1 {
       font-family: var(--barcode);
-      font-size: 58px;
       font-weight: 400;
-      letter-spacing: 3px;
-      line-height: 1.9;
-      color: #fff;
-      text-shadow:
-        3px 3px 0 #3a3a3a,
-        0 0 18px rgba(255, 255, 255, 0.35),
-        0 0 45px rgba(255, 255, 255, 0.15);
-      animation: glow 3.5s ease-in-out infinite;
+      font-size: clamp(44px, 12vw, 150px);
+      line-height: 1.12;
+      letter-spacing: 0.03em;
+      color: var(--paper);
+      margin-bottom: 0.75rem;
     }
 
-    @keyframes glow {
-      0%, 100% {
-        text-shadow:
-          3px 3px 0 #3a3a3a,
-          0 0 18px rgba(255, 255, 255, 0.35),
-          0 0 45px rgba(255, 255, 255, 0.15);
-      }
-      50% {
-        text-shadow:
-          3px 3px 0 #3a3a3a,
-          0 0 22px rgba(255, 255, 255, 0.45),
-          0 0 55px rgba(255, 255, 255, 0.28),
-          0 0 90px rgba(255, 255, 255, 0.12);
-      }
-    }    .tagline {
-      font-family: var(--bitcount);
-      font-size: 22px;
-      line-height: 1.7;
-      color: #bdbdbd;
-      margin: 0.5rem 0 2.25rem;
-      letter-spacing: 0.5px;
-      min-height: 2.2em;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
+    .tagline {
+      font-family: var(--term);
+      font-size: clamp(20px, 2.3vw, 29px);
+      line-height: 1.4;
+      letter-spacing: 0.04em;
+      color: #c8c5c0;
+      min-height: 1.5em;
+      max-width: 40ch;
     }
 
-    .tagline .prompt { color: #fff; }
+    .tagline .prompt { color: var(--paper); }
 
     .cursor {
       display: inline-block;
-      color: #fff;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
+      color: var(--paper);
       animation: blink 1s steps(2, start) infinite;
     }
 
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
+    @keyframes blink { 50% { opacity: 0; } }
 
-    .links {
-      display: grid;
-      gap: 1.25rem;
-    }
-
-    .link {
+    .hero-cta {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      flex-wrap: wrap;
+      gap: 0.9rem 1.4rem;
+    }
+
+    /* --- store button ---------------------------------------------------- */
+    .store {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.7rem 1.25rem 0.75rem;
+      background: var(--paper);
+      color: var(--ink);
+      border: 1px solid var(--paper);
       text-decoration: none;
-      background: #1a1a1a;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 12px;
-      padding: 1rem 1.1rem;
-      filter: none;
-      transition: transform 0.2s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .link:hover {
-      transform: translateY(-2px);
-      background: #fff;
-      border-color: #fff;
-      color: #000;
-      box-shadow: 0 0 20px rgba(255,255,255,0.35);
-    }
-
-    .link:active {
-      transform: translateY(1px);
-    }
-
-    .link:focus-visible {
-      outline: 3px dashed #fff;
-      outline-offset: 4px;
-    }
-
-    .link .icon {
-      width: 46px;
-      height: 46px;
-      background: #2a2a2a;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      transition: background-color 0.15s ease;
-    }
-
-    .link .icon svg {
+    .store svg {
       width: 24px;
       height: 24px;
-      fill: #fff;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .store-text { display: block; text-align: left; }
+
+    .store-text small {
       display: block;
+      font-family: var(--term);
+      font-size: 13px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.62;
+      margin-bottom: 2px;
     }
 
-    .link:hover .icon {
-      background: #000;
-      border-color: #000;
-    }
-
-    .link:hover .icon svg { fill: #fff; }
-
-    .link .meta { text-align: left; min-width: 0; }
-
-    .link .meta .name {
+    .store-text strong {
+      display: block;
       font-family: var(--bitcount);
-      font-size: 24px;
-      line-height: 1.9;
-      letter-spacing: 1px;
-      display: block;
-      color: inherit;
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.45);
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: 0.05em;
     }
 
-    .link .meta .desc {
-      font-family: var(--bitcount);
-      font-size: 14px;
-      line-height: 1.3;
-      color: #888;
-      display: block;
+    .store:hover {
+      background: var(--ink);
+      color: var(--paper);
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 1px var(--line), 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--term);
+      font-size: 21px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--paper);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      padding: 0.72rem 1.1rem 0.76rem;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .ghost:hover {
+      background: var(--paper);
+      color: var(--ink);
+      border-color: var(--paper);
+      transform: translateY(-2px);
+    }
+
+    .textlink {
+      font-family: var(--term);
+      font-size: 19px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .textlink:hover {
+      color: var(--paper);
+      border-color: var(--line);
+    }
+
+    /* --- barcode strip --------------------------------------------------- */
+    .barcode-strip {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 1.1rem 0 0.75rem;
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-align: center;
+      font-family: var(--barcode);
+      font-size: clamp(20px, 3.4vw, 34px);
+      letter-spacing: 0.1em;
+      color: rgba(232, 230, 225, 0.55);
       white-space: nowrap;
-      transition: color 0.15s ease;
-      text-shadow: 0 0 9px rgba(255, 255, 255, 0.3);
+      user-select: none;
     }
 
-    .link:hover .meta .desc { color: #333; }
-
-    .projects {
-      margin-top: 2.5rem;
-      text-align: left;
+    /* --- sections -------------------------------------------------------- */
+    .block {
+      position: relative;
+      z-index: 1;
+      scroll-margin-top: 4.5rem;
+      padding-top: clamp(3rem, 8vh, 5rem);
+      padding-bottom: clamp(3rem, 8vh, 5rem);
+      border-top: 1px solid var(--line);
     }
 
-    .projects-title {
+    .hero + .block, .barcode-strip + .block { border-top: none; }
+
+    .block-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .block-head h2 {
+      font-family: var(--barcode);
+      font-weight: 400;
+      font-size: clamp(38px, 6vw, 70px);
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+      color: var(--paper);
+    }
+
+    .block-head .idx {
       font-family: var(--term);
       font-size: 20px;
-      color: #9a9a9a;
-      letter-spacing: 1px;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dim);
     }
 
-    .projects-title .prompt { color: #fff; }
-
-    .proj {
-      display: block;
-      text-decoration: none;
-      color: #fff;
-      padding: 0.65rem 0.1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      transition: border-color 0.15s ease, padding-left 0.15s ease;
+    /* --- app ------------------------------------------------------------- */
+    .app-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(1.75rem, 4.5vw, 3.5rem);
+      align-items: start;
     }
 
-    .proj:last-child { border-bottom: none; }
-
-    .proj-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.5rem;
+    .app-lede {
+      font-size: clamp(18px, 1.6vw, 21px);
+      line-height: 1.55;
+      color: #d6d3cd;
+      max-width: 48ch;
+      margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
     }
 
-    .proj-name {
-      font-family: var(--bitcount);
+    .specs {
+      list-style: none;
+      border-top: 1px solid var(--line);
+      margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    .specs li {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      gap: 1rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--line);
       font-size: 16px;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 9px rgba(255, 255, 255, 0.3);
+      line-height: 1.45;
+    }
+
+    .specs .k {
+      font-family: var(--term);
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .specs .v { color: #dcd9d3; }
+
+    .app-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 1.4rem;
+    }
+
+    .minor {
+      margin-top: 1.1rem;
+      font-family: var(--term);
+      font-size: 17px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+
+    .minor a {
+      color: var(--paper);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .minor a:hover { border-color: var(--paper); }
+
+    /* --- filmstrip ------------------------------------------------------- */
+    .film {
+      border: 1px solid var(--line);
+      background: #101010;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    .perf {
+      height: 13px;
+      background-image: repeating-linear-gradient(
+        90deg,
+        rgba(232, 230, 225, 0.55) 0px,
+        rgba(232, 230, 225, 0.55) 7px,
+        transparent 7px,
+        transparent 21px
+      );
+      opacity: 0.45;
+      margin: 0 6px;
+    }
+
+    .frames {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      background: #1b1b1b;
+      padding: 3px 0;
+    }
+
+    .frames figure {
+      background: #000;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
-    .proj-stars {
-      font-family: var(--bitcount);
-      font-size: 13px;
-      color: #888;
-      flex-shrink: 0;
-      text-shadow: 0 0 7px rgba(255, 255, 255, 0.2);
+    .frames figure:first-child { grid-column: 1 / -1; }
+
+    .frames img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08) brightness(0.95);
     }
 
-    .proj-desc {
+    .frames figure:first-child img { aspect-ratio: 16 / 9; }
+
+    .film-cap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.4rem 0.8rem 0.55rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .film-cap .code {
+      font-family: var(--barcode);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: 0.06em;
+      color: rgba(232, 230, 225, 0.8);
+      padding-top: 0.25rem;
+    }
+
+    .film-cap .spec {
+      font-family: var(--term);
+      font-size: 16px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-align: right;
+    }
+
+    .film-note {
+      margin-top: 0.85rem;
+      font-family: var(--term);
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+
+    /* --- projects -------------------------------------------------------- */
+    .work-intro {
+      max-width: 52ch;
+      margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
+      font-family: var(--term);
+      font-size: 20px;
+      letter-spacing: 0.04em;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+
+    .projects {
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .projects .proj {
+      display: grid;
+      grid-template-columns: 2.6rem 1fr auto;
+      gap: 0.75rem 1.25rem;
+      align-items: baseline;
+      padding: 0.95rem 0.15rem;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--paper);
+      transition: background-color 0.15s ease, padding-left 0.18s ease;
+    }
+
+    .proj .n {
+      font-family: var(--term);
+      font-size: 17px;
+      color: #6d6a66;
+      letter-spacing: 0.08em;
+    }
+
+    .proj .name {
+      display: block;
       font-family: var(--bitcount);
-      font-size: 13px;
-      color: #777;
+      font-size: clamp(18px, 1.7vw, 22px);
+      letter-spacing: 0.02em;
+      line-height: 1.35;
+    }
+
+    .proj .desc {
       display: block;
       margin-top: 2px;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-family: var(--term);
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      color: var(--dim);
+      line-height: 1.4;
+    }
+
+    .proj .stars {
+      font-family: var(--term);
+      font-size: 17px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
       white-space: nowrap;
-      text-shadow: 0 0 7px rgba(255, 255, 255, 0.15);
     }
 
     .proj:hover {
-      border-color: rgba(255, 255, 255, 0.35);
-      padding-left: 0.4rem;
+      background: rgba(232, 230, 225, 0.05);
+      padding-left: 0.9rem;
     }
 
-    .proj:hover .proj-name { color: #fff; }
-    .proj:hover .proj-desc { color: #bbb; }
+    .proj:hover .name { color: #fff; }
+    .proj:hover .desc { color: #b8b5af; }
 
-    footer {
-      margin-top: 2.25rem;
-      font-family: var(--bitcount);
-      font-size: 18px;
-      line-height: 1.6;
-      color: #7a7a7a;
-      letter-spacing: 1px;
-      text-shadow: 0 0 9px rgba(255, 255, 255, 0.28);
+    /* --- photography teaser ---------------------------------------------- */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1.75rem, 4.5vw, 3.5rem);
+      align-items: center;
     }
 
-    footer .brand {
+    .photo-copy p {
       font-family: var(--term);
-      font-size: 1.15em;
-      line-height: 1;
+      font-size: 21px;
+      line-height: 1.5;
+      letter-spacing: 0.03em;
+      color: #c8c5c0;
+      max-width: 34ch;
+      margin-bottom: 1.5rem;
     }
 
-    footer .ver { color: #5c5c5c; }
+    .strip {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3px;
+      border: 1px solid var(--line);
+      background: #1b1b1b;
+      padding: 3px;
+    }
 
-    /* full-screen photo slides */
-    .gallery {
-      width: 100%;
+    .strip a {
       display: block;
-    }
-
-    .frame {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      height: 100svh;
-      background: #000;
       overflow: hidden;
-      scroll-snap-align: start;
-      scroll-snap-stop: always;
+      line-height: 0;
     }
 
-    .frame picture {
+    .strip img {
       display: block;
       width: 100%;
       height: 100%;
-    }
-
-    .frame img {
-      width: 100%;
-      height: 100%;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
-      display: block;
-      filter: grayscale(1) contrast(1.05);
+      filter: grayscale(1) contrast(1.06);
+      transition: transform 0.35s ease, filter 0.35s ease;
     }
 
-    .frame-label {
-      position: absolute;
-      left: calc(1.25rem + env(safe-area-inset-left));
-      bottom: calc(1.1rem + env(safe-area-inset-bottom));
-      font-family: var(--term);
-      font-size: 24px;
-      color: #ddd;
-      letter-spacing: 1px;
-      text-shadow: 0 0 9px rgba(0, 0, 0, 0.85);
+    .strip a:hover img {
+      transform: scale(1.03);
+      filter: grayscale(1) contrast(1.14) brightness(1.05);
     }
 
-    .frame-info {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+    /* --- footer ---------------------------------------------------------- */
+    footer {
+      position: relative;
       z-index: 1;
-      width: 100%;
-      max-width: 440px;
-      padding: 2.5rem 2.25rem 2rem;
-      background-color: rgba(17, 17, 17, 1);
-      background-image:
-        radial-gradient(circle at center, rgba(26, 26, 26, 1) 1px, transparent 1px);
-      background-size: 6px 6px;
-      border: none;
-      border-radius: 18px;
-      text-align: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.16);
-      max-height: calc(100vh - 2rem);
-      max-height: calc(100svh - 2rem);
-      overflow-y: auto;
-      overflow-x: hidden;
-      overscroll-behavior: contain;
-    }
-
-    .frame-info h2 {
-      font-family: var(--barcode);
-      font-size: 48px;
-      font-weight: 400;
-      letter-spacing: 3px;
-      line-height: 1.4;
-      color: #fff;
-      text-shadow: 0 0 18px rgba(255, 255, 255, 0.35), 0 0 45px rgba(255, 255, 255, 0.15);
-    }
-
-    .frame-info p {
-      font-family: var(--bitcount);
-      font-size: 18px;
-      line-height: 1.6;
-      color: #bdbdbd;
-      margin: 0.5rem 0 1.25rem;
-      letter-spacing: 0.5px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
-    }
-
-    .frame-info a {
-      display: inline-block;
-      font-family: var(--bitcount);
-      font-size: 14px;
-      letter-spacing: 1px;
-      color: #fff;
-      text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 12px;
-      padding: 0.8rem 1rem;
-      transition: transform 0.2s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .frame-info a:hover {
-      transform: translateY(-2px);
-      background: #fff;
-      border-color: #fff;
-      color: #000;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
-    }
-
-    .topleft {
-      position: fixed;
-      top: calc(1.1rem + env(safe-area-inset-top));
-      left: calc(1.25rem + env(safe-area-inset-left));
-      z-index: 4;
+      border-top: 1px solid var(--line);
+      padding-top: 1.75rem;
+      padding-bottom: clamp(2rem, 5vh, 3rem);
       display: flex;
-      gap: 1rem;
-    }
-
-    .topleft a {
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 2rem;
       font-family: var(--term);
-      font-size: 24px;
-      letter-spacing: 1px;
-      color: #9a9a9a;
-      text-decoration: none;
-      text-shadow: 0 0 9px rgba(0, 0, 0, 0.85);
-      transition: color 0.15s ease;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      color: var(--dim);
     }
 
-    .topleft a:hover { color: #fff; }
+    footer a {
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
 
-    @media (max-width: 480px) {
-      .corner { display: none; }
-      .card { padding: 1.5rem 1rem 1.25rem; max-width: calc(100vw - 2rem); }
-      .frame-info { padding: 1.5rem 1rem 1.25rem; }
-      .frame-info h2 { font-size: 36px; }
-      .frame-label { font-size: 20px; }
-      .link {
-        gap: 0.75rem;
-        padding: 0.85rem 0.85rem;
-      }
-      .link .icon { width: 40px; height: 40px; }
-      .link .icon svg { width: 20px; height: 20px; }
-      .link .meta .name { font-size: 20px; }
-      .link .meta .desc { font-size: 13px; }
-      .topleft a { padding: 0.65rem 0.3rem; }
-      h1 { font-size: 24px; }
-      .ascii { font-size: 10.5px; }
-      .tagline { font-size: 18px; }
-      .projects { margin-top: 1.5rem; }
-      footer { margin-top: 1.25rem; }
+    footer a:hover {
+      color: var(--paper);
+      border-color: var(--line);
+    }
+
+    footer .mark {
+      font-family: var(--barcode);
+      font-size: 26px;
+      letter-spacing: 0.08em;
+      color: rgba(232, 230, 225, 0.55);
+    }
+
+    .foot-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+    /* --- responsive ------------------------------------------------------ */
+    @media (max-width: 860px) {
+      .app-grid, .photo-grid { grid-template-columns: 1fr; }
+      .hero { min-height: auto; padding-top: 2.5rem; padding-bottom: 3rem; }
+      h1 { margin-bottom: 0.5rem; }
+    }
+
+    @media (max-width: 560px) {
+      .wordmark { font-size: 30px; letter-spacing: 3px; }
+      .nav { font-size: 17px; gap: 1rem; }
+      .nav .hide-sm { display: none; }
+      .hero-meta { font-size: 16px; gap: 0.3rem 1rem; }
+      .specs li { grid-template-columns: 84px 1fr; gap: 0.75rem; font-size: 15px; }
+      .specs .k { font-size: 16px; }
+      .store-text strong { font-size: 19px; }
+      .ghost { font-size: 19px; }
+      .barcode-strip { font-size: 18px; letter-spacing: 0.04em; }
+      .block-head h2 { font-size: 34px; }
+      .proj { grid-template-columns: 2rem 1fr; }
+      .proj .stars { display: none; }
+      .film-cap .code { font-size: 22px; }
+      .film-cap .spec { font-size: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      h1, .cursor { animation: none; }
+      .cursor { animation: none; }
+      .store, .ghost, .proj, .strip img, .textlink { transition: none; }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ZoomBox Camera: Film Camera",
+    "alternateName": "ZoomBox Camera",
+    "applicationCategory": "MultimediaApplication",
+    "applicationSubCategory": "Photography",
+    "operatingSystem": "Android 10+",
+    "url": "https://play.google.com/store/apps/details?id=eu.indukto.zoombox",
+    "installUrl": "https://play.google.com/store/apps/details?id=eu.indukto.zoombox",
+    "downloadUrl": "https://play.google.com/store/apps/details?id=eu.indukto.zoombox",
+    "description": "Retro film camera for Android with a 1x-5x zoom-box viewfinder, 13 film-inspired looks, DNG RAW capture, double exposure and a built-in editor. Works fully offline and collects no data.",
+    "featureList": [
+      "1x-5x zoom-box viewfinder",
+      "13 retro film looks",
+      "DNG RAW capture on supported lenses",
+      "Double exposure and built-in photo editor",
+      "4:3, 3:2, 16:9 and 1:1 aspect ratios",
+      "Works offline, collects no data"
+    ],
+    "author": { "@type": "Organization", "name": "Indukto", "url": "https://indukto.eu" },
+    "publisher": { "@type": "Organization", "name": "Indukto", "url": "https://indukto.eu" },
+    "privacyPolicy": "https://indukto.eu/privacy.html",
+    "sameAs": ["https://github.com/Indukto/zoom-box"]
+  }
+  </script>
 </head>
 <body>
   <div class="bg" aria-hidden="true"></div>
-  <nav class="topleft">
-    <a href="#dev" id="dev-link">// Dev</a>
-    <a href="#photo" id="photo-link">// Photography</a>
-  </nav>
-  <span class="corner tl" aria-hidden="true">┌</span>
-  <span class="corner tr" aria-hidden="true">┐</span>
-  <span class="corner bl" aria-hidden="true">└</span>
-  <span class="corner br" aria-hidden="true">┘</span>
 
-  <section class="gallery" aria-label="Photo gallery">
-    <figure class="frame" id="dev">
-      <img src="photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif" alt="Halftone photo 01" decoding="async" />
-      <main class="card">
-      <h1>INDUKTO</h1>
-    <p class="tagline"><span class="prompt">&gt;</span> <span id="type"></span><span class="cursor">▮</span></p>
+  <header class="topbar">
+    <div class="topbar-inner wrap">
+      <a class="wordmark" href="#top" aria-label="indukto — home">indukto</a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#app">// app</a>
+        <a href="#work">// work</a>
+        <a href="photo.html">// photography</a>
+        <a href="privacy.html" class="hide-sm">// privacy</a>
+      </nav>
+    </div>
+  </header>
 
-    <nav class="links">
-      <a class="link" href="https://play.google.com/store/apps/dev?id=8945801315617999625" target="_blank" rel="noopener">
-        <span class="icon">
+  <main id="top">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-meta">
+        <span>android apps</span>
+        <span>open source</span>
+        <span>film photography</span>
+      </div>
+
+      <div class="hero-main">
+        <h1 id="hero-title">INDUKTO</h1>
+        <p class="tagline">
+          <span class="sr-only">android apps &amp; open-source experiments</span>
+          <span aria-hidden="true"><span class="prompt">&gt;</span> <span id="type"></span><span class="cursor">▮</span></span>
+        </p>
+      </div>
+
+      <div class="hero-cta">
+        <a class="store" href="https://play.google.com/store/apps/details?id=eu.indukto.zoombox" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-        </span>
-        <span class="meta">
-          <span class="name">GOOGLE PLAY</span>
-          <span class="desc">browse all my apps</span>
-        </span>
-      </a>
-
-      <a class="link" href="https://github.com/Indukto" target="_blank" rel="noopener">
-        <span class="icon">
-          <svg viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-          </svg>
-        </span>
-        <span class="meta">
-          <span class="name">GITHUB</span>
-          <span class="desc">check out my projects</span>
-        </span>
-      </a>
-    </nav>
-
-    <section class="projects" aria-label="Projects">
-      <div class="projects-title"><span class="prompt">//</span> projects</div>
-      <div id="proj-list" aria-live="polite"></div>
+          <span class="store-text">
+            <small>get it on</small>
+            <strong>Google Play</strong>
+          </span>
+        </a>
+        <a class="ghost" href="https://github.com/Indukto" target="_blank" rel="noopener">
+          GitHub <span aria-hidden="true">↗</span>
+        </a>
+        <a class="textlink" href="#app">ZoomBox Camera <span aria-hidden="true">↓</span></a>
+      </div>
     </section>
 
-    <footer>© <span id="year">2026</span> · <span class="brand">Indukto</span> <span class="ver">· <a href="privacy.html" style="color:inherit">privacy</a></footer>
-      </main>
-      <figcaption class="frame-label">// 01</figcaption>
-    </figure>
-    <figure class="frame" id="photo">
-      <img src="photos/liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photo 02" loading="lazy" decoding="async" />
-      <div class="frame-info">
-        <h2>PHOTOGRAPHY</h2>
-        <p>grain, halftone &amp; liminal experiments</p>
-        <a href="photo.html">open gallery</a>
+    <div class="barcode-strip" aria-hidden="true">INDUKTO · ZOOMBOX · 2026</div>
+
+    <section class="block wrap" id="app" aria-labelledby="app-title">
+      <div class="block-head">
+        <h2 id="app-title">ZOOMBOX</h2>
+        <span class="idx">// 01 — featured app</span>
       </div>
-      <figcaption class="frame-label">// 02</figcaption>
-    </figure>
-    <figure class="frame">
-      <img src="photos/liminal-halftone3-C91BE3BAAE70A0F72C06F58E990CEE72EB32AC3CC04F52519525789D6071B9AA.avif" alt="Liminal halftone photo 03" loading="lazy" decoding="async" />
-      <figcaption class="frame-label">// 03</figcaption>
-    </figure>
-    <figure class="frame">
-      <img src="photos/liminal-halftone4-DCCB542A9930E5E4F070C4735FB6D118B21294B52FACC19F8773F91C8258E752.avif" alt="Liminal halftone photo 04" loading="lazy" decoding="async" />
-      <figcaption class="frame-label">// 04</figcaption>
-    </figure>
-    <figure class="frame">
-      <img src="photos/liminal-halftone5-3F8E5E9F407291C06ABCDC538DF1BFD529CD37D3DD9541B81DF35FAF9E4DF402.avif" alt="Liminal halftone photo 05" loading="lazy" decoding="async" />
-      <figcaption class="frame-label">// 05</figcaption>
-    </figure>
-  </section>
+
+      <div class="app-grid">
+        <div class="app-copy">
+          <p class="app-lede">
+            <strong>ZoomBox Camera: Film Camera</strong> is a retro camera for Android:
+            a one-of-a-kind zoom-box viewfinder, thirteen film-inspired looks, and
+            every frame processed on your phone — no account, no upload.
+          </p>
+
+          <ul class="specs">
+            <li><span class="k">viewfinder</span><span class="v">1×–5× zoom box, 4:3 · 3:2 · 16:9 · 1:1</span></li>
+            <li><span class="k">looks</span><span class="v">13 presets — CCD digicam, mono 400, cross process, halation, light leaks</span></li>
+            <li><span class="k">capture</span><span class="v">DNG RAW, double exposure, self-timer, built-in editor</span></li>
+            <li><span class="k">privacy</span><span class="v">no internet permission — photos never leave the device</span></li>
+            <li><span class="k">platform</span><span class="v">Android 10+ · Photography · Everyone</span></li>
+          </ul>
+
+          <div class="app-actions">
+            <a class="store" href="https://play.google.com/store/apps/details?id=eu.indukto.zoombox" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <span class="store-text">
+                <small>ZoomBox Camera on</small>
+                <strong>Google Play</strong>
+              </span>
+            </a>
+            <a class="textlink" href="https://play.google.com/store/apps/dev?id=8945801315617999625" target="_blank" rel="noopener">all my apps ↗</a>
+          </div>
+
+          <p class="minor">
+            50+ downloads · built by indukto ·
+            <a href="privacy.html">privacy policy</a> ·
+            <a href="https://github.com/Indukto/zoom-box" target="_blank" rel="noopener">source on GitHub</a>
+          </p>
+        </div>
+
+        <figure class="film">
+          <div class="perf" aria-hidden="true"></div>
+          <div class="frames">
+            <figure><img src="photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif" alt="Halftone photograph, wide frame" decoding="async" /></figure>
+            <figure><img src="photos/liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photograph" loading="lazy" decoding="async" /></figure>
+            <figure><img src="photos/liminal-halftone3-C91BE3BAAE70A0F72C06F58E990CEE72EB32AC3CC04F52519525789D6071B9AA.avif" alt="Liminal halftone photograph" loading="lazy" decoding="async" /></figure>
+          </div>
+          <div class="perf" aria-hidden="true"></div>
+          <figcaption class="film-cap">
+            <span class="code" aria-hidden="true">ZOOMBOX</span>
+            <span class="spec">13 looks · ISO 400 · 35mm</span>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="film-note">Shot on the halftone pipeline — the same grain and contrast ZoomBox chases.</p>
+    </section>
+
+    <section class="block wrap" id="work" aria-labelledby="work-title">
+      <div class="block-head">
+        <h2 id="work-title">PROJECTS</h2>
+        <span class="idx">// 02 — open source</span>
+      </div>
+      <p class="work-intro">mostly android, some llm tooling, a little computer vision — everything public.</p>
+      <div class="projects" id="proj-list" aria-live="polite"></div>
+    </section>
+
+    <section class="block wrap" id="photography" aria-labelledby="photo-title">
+      <div class="block-head">
+        <h2 id="photo-title">PHOTOGRAPHY</h2>
+        <span class="idx">// 03 — gallery</span>
+      </div>
+      <div class="photo-grid">
+        <div class="photo-copy">
+          <p>grain, halftone &amp; liminal experiments — shot on whatever was in my pocket.</p>
+          <a class="ghost" href="photo.html">Open gallery <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="strip">
+          <a href="photo.html"><img src="photos/liminal-halftone4-DCCB542A9930E5E4F070C4735FB6D118B21294B52FACC19F8773F91C8258E752.avif" alt="Liminal halftone photograph, open gallery" loading="lazy" decoding="async" /></a>
+          <a href="photo.html"><img src="photos/liminal-halftone5-3F8E5E9F407291C06ABCDC538DF1BFD529CD37D3DD9541B81DF35FAF9E4DF402.avif" alt="Liminal halftone photograph, open gallery" loading="lazy" decoding="async" /></a>
+          <a href="photo.html"><img src="photos/DSC09971-CD87FF1653B3F7AEB43F70F71C08D9077B18DECDD001F6A0FD30EBC59120815B.avif" alt="Photograph, open gallery" loading="lazy" decoding="async" /></a>
+          <a href="photo.html"><img src="photos/liminal-halftone2-4333346B97B91360084413BDD1EDA3EBAD77925CAAE2C745B2F793300614366A.avif" alt="Liminal halftone photograph, open gallery" loading="lazy" decoding="async" /></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <span>© <span id="year">2026</span> indukto</span>
+    <span class="mark" aria-hidden="true">INDUKTO</span>
+    <span class="foot-links">
+      <a href="https://play.google.com/store/apps/details?id=eu.indukto.zoombox" target="_blank" rel="noopener">ZoomBox on Google Play</a>
+      <a href="privacy.html">privacy</a>
+      <a href="index.md">markdown</a>
+    </span>
+  </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    function slideTo(targetEl) {
-      const startY = window.scrollY;
-      const endY = targetEl.getBoundingClientRect().top + window.scrollY;
-      const duration = 900;
-      const startTime = performance.now();
-      const root = document.documentElement;
-      root.style.scrollSnapType = "none";
-      root.style.scrollBehavior = "auto";
-      (function slide(now) {
-        const t = Math.min((now - startTime) / duration, 1);
-        const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-        window.scrollTo(0, startY + (endY - startY) * eased);
-        if (t < 1) {
-          requestAnimationFrame(slide);
-        } else {
-          root.style.scrollSnapType = "";
-          root.style.scrollBehavior = "";
-        }
-      })(startTime);
-    }
-
-    document.getElementById("photo-link").addEventListener("click", function (e) {
-      e.preventDefault();
-      slideTo(document.getElementById("photo"));
-    });
-
-    document.getElementById("dev-link").addEventListener("click", function (e) {
-      e.preventDefault();
-      slideTo(document.getElementById("dev"));
-    });
-
-    // terminal-style typewriter for the tagline
-    // terminal-style typewriter for the tagline (skipped when the user
-    // prefers reduced motion — better for battery and sensitive users)
+    // terminal-style typewriter (skipped when the user prefers reduced motion)
     const text = "android apps & open-source experiments";
     const el = document.getElementById("type");
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -687,7 +919,7 @@
 
     // github projects — static list, no external requests (Datenschutz)
     const projList = document.getElementById("proj-list");
-    const FALLBACK_PROJECTS = [
+    const PROJECTS = [
       { name: "zoom-box", html_url: "https://github.com/Indukto/zoom-box", description: "Android camera with Zoombox", language: "Kotlin", stargazers_count: 5 },
       { name: "TvGarden", html_url: "https://github.com/Indukto/TvGarden", description: null, language: "Kotlin", stargazers_count: 2 },
       { name: "gpro", html_url: "https://github.com/Indukto/gpro", description: "local llm asistant", language: "TypeScript", stargazers_count: 0 },
@@ -697,56 +929,43 @@
 
     function renderProjects(repos) {
       projList.innerHTML = "";
-      repos.forEach(r => {
+      repos.forEach((r, i) => {
         const a = document.createElement("a");
         a.className = "proj";
         a.href = r.html_url;
         a.target = "_blank";
         a.rel = "noopener";
 
-        const top = document.createElement("span");
-        top.className = "proj-top";
+        const n = document.createElement("span");
+        n.className = "n";
+        n.textContent = String(i + 1).padStart(2, "0");
+
+        const mid = document.createElement("span");
+        mid.className = "mid";
 
         const name = document.createElement("span");
-        name.className = "proj-name";
+        name.className = "name";
         name.textContent = r.name;
-        top.appendChild(name);
-
-        if (r.stargazers_count > 0) {
-          const stars = document.createElement("span");
-          stars.className = "proj-stars";
-          stars.textContent = "\u2605 " + r.stargazers_count;
-          top.appendChild(stars);
-        }
-        a.appendChild(top);
+        mid.appendChild(name);
 
         const desc = r.description || (r.language ? r.language.toLowerCase() : "");
         if (desc) {
           const d = document.createElement("span");
-          d.className = "proj-desc";
+          d.className = "desc";
           d.textContent = desc;
-          a.appendChild(d);
+          mid.appendChild(d);
         }
+
+        const stars = document.createElement("span");
+        stars.className = "stars";
+        stars.textContent = r.stargazers_count > 0 ? "\u2605 " + r.stargazers_count : "";
+
+        a.append(n, mid, stars);
         projList.appendChild(a);
       });
     }
 
-    renderProjects(FALLBACK_PROJECTS);
-
-    // The photo is used directly as the background — no re-dithering.
-    // Prefer the full-res file when it's available (real hosting); fall back
-    // to the embedded 320px copy (works everywhere, incl. this preview).
-    const IMG_DATA = "data:image/jpeg;base64,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";
-
-    const bg = document.querySelector(".bg");
-    const full = new Image();
-    full.src = "photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif";
-    full.onload = () => {
-      bg.style.backgroundImage = "url(photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif)";
-    };
-    full.onerror = () => {
-      bg.style.backgroundImage = "url(" + IMG_DATA + ")";
-    };
+    renderProjects(PROJECTS);
   </script>
 </body>
 </html>

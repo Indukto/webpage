@@ -1,11 +1,35 @@
 ---
-title: indukto — Apps & Code
-description: indukto — Android apps on Google Play and open-source projects on GitHub.
+title: indukto — ZoomBox Camera & experiments
+description: indukto — ZoomBox Camera: Film Camera for Android, plus open-source projects on GitHub.
 ---
 
 # INDUKTO
 
 > android apps & open-source experiments
+
+## Featured app — ZoomBox Camera: Film Camera
+
+**ZoomBox Camera: Film Camera** — retro film camera for Android with a zoom-box
+viewfinder, 13 film-inspired looks and fully offline processing.
+
+- Google Play: [https://play.google.com/store/apps/details?id=eu.indukto.zoombox](https://play.google.com/store/apps/details?id=eu.indukto.zoombox)
+- Package: `eu.indukto.zoombox`
+- Platform: Android 10+ (API 29+)
+- Category: Photography
+- Downloads: 50+
+- Price: free
+- Privacy policy: [privacy.html](https://indukto.eu/privacy.html)
+- Source: [github.com/Indukto/zoom-box](https://github.com/Indukto/zoom-box)
+
+Features:
+
+- 1×–5× zoom-box viewfinder with live preview
+- 13 retro looks: CCD digicam, warm portrait, monochrome 400, cross process, halation, light leaks, film grain
+- Aspect ratios 4:3, 3:2, 16:9, 1:1
+- Exposure, temperature and tint adjustments, self-timer
+- DNG RAW capture on supported rear lenses
+- Double exposure and a built-in photo editor
+- Works without an internet connection; no data collected
 
 ## Links
 
