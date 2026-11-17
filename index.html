@@ -337,23 +337,6 @@
       border-color: var(--line);
     }
 
-    /* --- barcode strip --------------------------------------------------- */
-    .barcode-strip {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      padding: 1.1rem 0 0.75rem;
-      overflow: hidden;
-      text-align: center;
-      font-family: var(--barcode);
-      font-size: clamp(20px, 3.4vw, 34px);
-      letter-spacing: 0.1em;
-      color: rgba(232, 230, 225, 0.55);
-      white-space: nowrap;
-      user-select: none;
-    }
-
     /* --- sections -------------------------------------------------------- */
     .block {
       position: relative;
@@ -364,7 +347,7 @@
       border-top: 1px solid var(--line);
     }
 
-    .hero + .block, .barcode-strip + .block { border-top: none; }
+    .hero + .block { border-top: none; }
 
     .block-head {
       display: flex;
@@ -713,7 +696,6 @@
       .specs .k { font-size: 16px; }
       .store-text strong { font-size: 19px; }
       .ghost { font-size: 19px; }
-      .barcode-strip { font-size: 18px; letter-spacing: 0.04em; }
       .block-head h2 { font-size: 34px; }
       .proj { grid-template-columns: 2rem 1fr; }
       .proj .stars { display: none; }
@@ -800,8 +782,6 @@
         <a class="textlink" href="#app">ZoomBox Camera <span aria-hidden="true">↓</span></a>
       </div>
     </section>
-
-    <div class="barcode-strip" aria-hidden="true">INDUKTO · ZOOMBOX · 2026</div>
 
     <section class="block wrap" id="app" aria-labelledby="app-title">
       <div class="block-head">

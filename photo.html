@@ -4,19 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>indukto — Photography</title>
-  <meta name="description" content="indukto — photography." />
+  <meta name="description" content="indukto — photography: grain, halftone &amp; liminal experiments." />
   <link rel="alternate" type="text/markdown" href="/photo.md" title="Markdown version" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='black'/%3E%3Cpath d='M56 12 L26 56 h18 l-6 32 30-44 h-18 z' fill='white'/%3E%3C/svg%3E" />
   <style>
-    @font-face {
-      font-family: 'Press Start 2P';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url('pressstart2p-latin-AFEC86997FDAF54AF1F59358FA2C1E2A0F1D04146EDAD18E5CD141D0384A7548.woff2') format('woff2');
-      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-
     @font-face {
       font-family: 'VT323';
       font-style: normal;
@@ -53,37 +44,50 @@
     }
 
     :root {
-      --pixel: "Press Start 2P", "Courier New", monospace;
+      --ink: #0b0b0b;
+      --paper: #e8e6e1;
+      --dim: #8c8a85;
+      --line: rgba(232, 230, 225, 0.16);
+      --barcode: "LibreBarcode128", "Courier New", monospace;
       --term: "VT323", "Courier New", monospace;
       --bitcount: "Bitcount Single", monospace;
-      --barcode: "LibreBarcode128", monospace;
+      --gutter: clamp(1rem, 4vw, 2.5rem);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html { -webkit-text-size-adjust: 100%; }
-
-    a, button { touch-action: manipulation; }
-
-    body { -webkit-tap-highlight-color: transparent; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: var(--bitcount);
-      background-color: #000;
-      color: #fff;
-      min-height: 100vh;
-      position: relative;
+      background: var(--ink);
+      color: var(--paper);
+      line-height: 1.5;
       overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* the photo itself, used directly as the background */
+    a, button { touch-action: manipulation; }
+
+    ::selection { background: var(--paper); color: var(--ink); }
+
+    a:focus-visible,
+    .shot:focus-visible {
+      outline: 2px dashed var(--paper);
+      outline-offset: 4px;
+    }
+
+    /* --- background: halftone photo, darkened, with scanlines ------------- */
     .bg {
       position: fixed;
       inset: 0;
       z-index: 0;
-      background: #000 no-repeat center / cover;
-      background-image: url('photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif');
-      filter: grayscale(1) contrast(1.1) brightness(1.05);
+      background: #000 url('photos/halftone-B2743C94BEC2A67431D558EDC145566E1E2485CEF0977A56A862356A1AFE17B7.avif') center / cover no-repeat;
+      filter: grayscale(1) contrast(1.15) brightness(0.65);
+      opacity: 0.32;
       pointer-events: none;
     }
 
@@ -91,134 +95,236 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%, rgba(0,0,0,0.4) 100%);
       z-index: 0;
+      background: radial-gradient(120% 85% at 50% 0%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.92) 68%, #000 100%);
       pointer-events: none;
     }
 
-    /* CRT scanlines over everything */
     body::after {
       content: "";
       position: fixed;
       inset: 0;
-      z-index: 5;
+      z-index: 9;
       background: repeating-linear-gradient(
         to bottom,
-        rgba(255,255,255,0.08) 0px,
-        rgba(255,255,255,0.08) 1px,
+        rgba(255, 255, 255, 0.035) 0px,
+        rgba(255, 255, 255, 0.035) 1px,
         transparent 1px,
         transparent 3px
       );
       pointer-events: none;
     }
 
-    .page {
+    /* --- layout ---------------------------------------------------------- */
+    .wrap {
       position: relative;
       z-index: 1;
-      max-width: 1060px;
+      width: 100%;
+      max-width: 1140px;
       margin: 0 auto;
-      padding:
-        calc(2rem + env(safe-area-inset-top))
-        calc(1.5rem + env(safe-area-inset-right))
-        calc(4rem + env(safe-area-inset-bottom))
-        calc(1.5rem + env(safe-area-inset-left));
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
     }
 
+    /* --- top bar --------------------------------------------------------- */
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      background: rgba(11, 11, 11, 0.82);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-      font-family: var(--term);
-      font-size: 22px;
-      letter-spacing: 1px;
-      color: #9a9a9a;
-      text-shadow: 0 0 9px rgba(255, 255, 255, 0.3);
-      margin-bottom: 2.5rem;
+      gap: 1.25rem;
+      padding-top: 0.55rem;
+      padding-bottom: 0.55rem;
     }
 
-    .topbar .brand {
+    .wordmark {
       font-family: var(--barcode);
-      font-size: 44px;
+      font-size: 38px;
       line-height: 1;
-      color: #fff;
-      text-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
       letter-spacing: 4px;
+      color: var(--paper);
       text-decoration: none;
+      padding-top: 0.3rem;
     }
 
-    .topbar .page-num { color: #5c5c5c; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      font-family: var(--term);
+      font-size: 20px;
+      letter-spacing: 0.09em;
+    }
 
-    .topbar a.pagenav { text-decoration: none; }
-
-    .topbar a.pagenav .page-num { transition: color 0.15s ease; }
-
-    .topbar a.pagenav:hover .page-num { color: #fff; }
-
-    .topbar a.back {
-      font-family: var(--bitcount);
-      font-size: 16px;
-      letter-spacing: 1px;
-      color: #fff;
+    .nav a {
+      color: var(--dim);
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 10px;
-      padding: 0.5rem 0.9rem;
-      transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+      transition: color 0.15s ease;
     }
 
-    .topbar a.back:hover {
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 20px rgba(255,255,255,0.35);
+    .nav a:hover,
+    .nav a[aria-current="page"] { color: var(--paper); }
+
+    /* --- page head ------------------------------------------------------- */
+    .page-head { padding-top: clamp(2.5rem, 7vh, 4.5rem); }
+
+    .block-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+      padding-bottom: clamp(1rem, 2.5vw, 1.5rem);
+      border-bottom: 1px solid var(--line);
     }
 
-    /* photo grid */
-    .grid {
+    .block-head h2 {
+      font-family: var(--barcode);
+      font-weight: 400;
+      font-size: clamp(38px, 6vw, 70px);
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+      color: var(--paper);
+    }
+
+    .block-head .idx {
+      font-family: var(--term);
+      font-size: 20px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .intro {
+      max-width: 56ch;
+      margin-bottom: clamp(2rem, 5vw, 3.5rem);
+      font-family: var(--term);
+      font-size: 20px;
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+      color: var(--dim);
+    }
+
+    .intro a {
+      color: var(--paper);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      transition: border-color 0.15s ease;
+    }
+
+    .intro a:hover { border-color: var(--paper); }
+
+    /* --- plates: asymmetric editorial grid ------------------------------- */
+    .sheet {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: clamp(1.25rem, 3vw, 2.5rem);
+      align-items: start;
     }
 
     .shot {
-      position: relative;
-      border-radius: 14px;
+      grid-column: span 6;
+      margin: 0;
+      line-height: 0;
+      cursor: zoom-in;
+    }
+
+    .shot:nth-child(1) { grid-column: span 8; }
+    .shot:nth-child(2) { grid-column: span 4; margin-top: clamp(1.5rem, 5vw, 4rem); }
+    .shot:nth-child(3) { grid-column: span 5; }
+    .shot:nth-child(4) { grid-column: span 7; }
+    .shot:nth-child(5) { grid-column: span 6; }
+    .shot:nth-child(6) { grid-column: span 6; margin-top: clamp(1rem, 3vw, 2rem); }
+
+    .shot .frame {
+      display: block;
+      width: 100%;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.14);
       background: #000;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--line);
+      line-height: 0;
     }
 
     .shot img {
+      display: block;
       width: 100%;
-      height: 100%;
       aspect-ratio: 4 / 3;
       object-fit: cover;
-      display: block;
+      filter: grayscale(1) contrast(1.06);
+      transition: filter 0.35s ease, transform 0.5s ease;
     }
 
-    .shot { cursor: zoom-in; }
+    .shot:nth-child(2) img { aspect-ratio: 3 / 4; }
+    .shot:nth-child(3) img { aspect-ratio: 4 / 5; }
+    .shot:nth-child(4) img { aspect-ratio: 16 / 10; }
+    .shot:nth-child(5) img { aspect-ratio: 4 / 3; }
+    .shot:nth-child(6) img { aspect-ratio: 1 / 1; }
+
+    .shot:hover img {
+      filter: grayscale(1) contrast(1.12) brightness(1.05);
+      transform: scale(1.015);
+    }
+
+    .shot figcaption {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+      margin-top: 0.7rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--line);
+      font-family: var(--term);
+      font-size: 17px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.3;
+      color: var(--dim);
+    }
+
+    .shot figcaption .no {
+      color: var(--paper);
+      flex: none;
+    }
+
+    .shot figcaption .title {
+      text-align: right;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .shot:hover figcaption .title { color: var(--paper); }
 
     .empty-note {
       grid-column: 1 / -1;
       font-family: var(--term);
       font-size: 22px;
-      color: #7a7a7a;
+      color: var(--dim);
       text-align: center;
       padding: 3rem 1rem;
-      text-shadow: 0 0 9px rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
     }
 
+    /* --- lightbox -------------------------------------------------------- */
     .lightbox {
       position: fixed;
       inset: 0;
-      z-index: 10;
-      background: rgba(0, 0, 0, 0);
+      z-index: 20;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: rgba(0, 0, 0, 0);
       cursor: zoom-out;
       opacity: 0;
       visibility: hidden;
@@ -227,121 +333,249 @@
     }
 
     .lightbox.open {
-      background: rgba(0, 0, 0, 0.92);
+      background: rgba(0, 0, 0, 0.96);
       opacity: 1;
       visibility: visible;
     }
 
-    .lightbox img {
+    .lb-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
       max-width: 92vw;
-      max-height: 92vh;
+      margin: 0;
+      line-height: 0;
+    }
+
+    .lift {
+      display: block;
+    }
+
+    .lift img {
+      display: block;
+      max-width: 92vw;
+      max-height: 82vh;
       object-fit: contain;
-      transform: scale(0.5);
+      border: 1px solid rgba(232, 230, 225, 0.2);
+      transform: scale(0.97);
       opacity: 0;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    .lightbox.open img {
+    .lightbox.open .lift img {
       transform: scale(1);
       opacity: 1;
+    }
+
+    .lb-caption {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-family: var(--term);
+      font-size: 18px;
+      line-height: 1.3;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .lb-caption .no { color: var(--paper); }
+
+    .lb-close {
+      position: fixed;
+      top: calc(0.9rem + env(safe-area-inset-top));
+      right: calc(0.9rem + env(safe-area-inset-right));
+      z-index: 21;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(11, 11, 11, 0.7);
+      color: var(--paper);
+      border: 1px solid var(--line);
+      font-family: var(--term);
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     }
 
     .lb-btn {
       position: fixed;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 11;
-      width: 48px;
+      z-index: 21;
+      width: 44px;
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 12px;
+      background: rgba(11, 11, 11, 0.7);
+      color: var(--paper);
+      border: 1px solid var(--line);
       font-family: var(--term);
-      font-size: 30px;
+      font-size: 28px;
       line-height: 1;
       cursor: pointer;
-      transition: background-color 0.15s ease, color 0.15s ease;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     }
 
-    .lb-btn:hover { background: #fff; color: #000; }
+    .lb-btn:hover,
+    .lb-close:hover {
+      background: var(--paper);
+      color: var(--ink);
+      border-color: var(--paper);
+    }
+
     .lb-btn.prev { left: 0.75rem; }
     .lb-btn.next { right: 0.75rem; }
 
-    .lb-count {
-      position: fixed;
-      right: calc(1rem + env(safe-area-inset-right));
-      bottom: calc(1rem + env(safe-area-inset-bottom));
-      z-index: 11;
-      font-family: var(--term);
-      font-size: 20px;
-      letter-spacing: 1px;
-      color: #9a9a9a;
-      text-shadow: 0 0 9px rgba(0, 0, 0, 0.85);
-      pointer-events: none;
-    }
-
+    /* --- footer ---------------------------------------------------------- */
     footer {
-      text-align: center;
-      font-family: var(--bitcount);
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--line);
+      padding-top: 1.75rem;
+      padding-bottom: clamp(2rem, 5vh, 3rem);
+      margin-top: clamp(3.5rem, 9vh, 6rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 2rem;
+      font-family: var(--term);
       font-size: 18px;
-      line-height: 1.6;
-      color: #7a7a7a;
-      letter-spacing: 1px;
-      text-shadow: 0 0 9px rgba(255, 255, 255, 0.28);
+      letter-spacing: 0.08em;
+      color: var(--dim);
     }
 
-    footer .ver { color: #5c5c5c; }
+    footer a {
+      color: var(--dim);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
 
-    @media (max-width: 480px) {
-      .page {
-        padding:
-          calc(1.25rem + env(safe-area-inset-top))
-          calc(1rem + env(safe-area-inset-right))
-          calc(3rem + env(safe-area-inset-bottom))
-          calc(1rem + env(safe-area-inset-left));
-      }
-      .grid { grid-template-columns: 1fr; gap: 1rem; }
-      .topbar { font-size: 18px; }
-      .topbar .brand { font-size: 36px; }
-      .topbar a.back { font-size: 14px; }
+    footer a:hover {
+      color: var(--paper);
+      border-color: var(--line);
+    }
+
+    footer .mark {
+      font-family: var(--barcode);
+      font-size: 26px;
+      letter-spacing: 0.08em;
+      color: rgba(232, 230, 225, 0.55);
+    }
+
+    .foot-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+    /* --- responsive ------------------------------------------------------ */
+    @media (max-width: 860px) {
+      .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .shot,
+      .shot:nth-child(n) { grid-column: auto; margin-top: 0; }
+      .shot img,
+      .shot:nth-child(n) img { aspect-ratio: 4 / 3; }
+    }
+
+    @media (max-width: 560px) {
+      .wordmark { font-size: 30px; letter-spacing: 3px; }
+      .nav { font-size: 17px; gap: 1rem; }
+      .nav .hide-sm { display: none; }
+      .block-head h2 { font-size: 34px; }
+      .block-head .idx { font-size: 17px; }
+      .intro { font-size: 18px; }
+      .sheet { grid-template-columns: 1fr; }
+      .shot figcaption { font-size: 15px; }
+      .lb-btn { width: 38px; height: 56px; font-size: 24px; }
+      .lb-caption { font-size: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .shot img, .lightbox, .lift img, .lb-btn, .lb-close, .nav a { transition: none; }
     }
   </style>
 </head>
 <body>
   <div class="bg" aria-hidden="true"></div>
 
-  <div class="page">
-    <nav class="topbar">
-      <a class="brand" href="index.html" aria-label="indukto — back to index">indukto</a>
-      <span><a class="pagenav" href="index.html"><span class="page-num">// 01 dev</span></a> &nbsp;·&nbsp; <a class="pagenav" href="photo.html"><span class="page-num">// 02 photo</span></a></span>
-      <a class="back" href="index.html">← back to index</a>
-    </nav>
+  <header class="topbar">
+    <div class="topbar-inner wrap">
+      <a class="wordmark" href="index.html" aria-label="indukto — home">indukto</a>
+      <nav class="nav" aria-label="Sections">
+        <a href="index.html#app">// app</a>
+        <a href="index.html#work">// work</a>
+        <a href="photo.html" aria-current="page">// photography</a>
+        <a href="privacy.html" class="hide-sm">// privacy</a>
+      </nav>
+    </div>
+  </header>
 
-    <section class="grid" id="gallery" aria-label="Photo gallery"></section>
+  <main class="wrap">
+    <div class="page-head">
+      <div class="block-head">
+        <h2>PHOTOGRAPHY</h2>
+        <span class="idx">// 03 — archive</span>
+      </div>
+      <p class="intro">
+        grain, halftone &amp; liminal experiments — <span id="count">0</span> frames, shot on
+        whatever was in my pocket. click any plate to enlarge, or
+        <a href="index.html">back to the index</a>.
+      </p>
+    </div>
 
-    <footer>© <span id="year">2026</span> indukto · <a href="privacy.html" style="color:inherit">privacy</a></footer>
-  </div>
+    <section class="sheet" id="gallery" aria-label="Photo gallery"></section>
+  </main>
 
-  <div class="lightbox" id="lightbox" role="dialog" aria-label="Enlarged photo">
-    <img src="" alt="" />
+  <footer class="wrap">
+    <span>© <span id="year">2026</span> indukto</span>
+    <span class="mark" aria-hidden="true">INDUKTO</span>
+    <span class="foot-links">
+      <a href="https://play.google.com/store/apps/details?id=eu.indukto.zoombox" target="_blank" rel="noopener">ZoomBox on Google Play</a>
+      <a href="privacy.html">privacy</a>
+      <a href="photo.md">markdown</a>
+    </span>
+  </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged photo">
+    <button class="lb-close" id="lb-close" aria-label="Close">×</button>
+    <figure class="lb-stage">
+      <span class="lift"><img src="" alt="" /></span>
+      <figcaption class="lb-caption" id="lb-caption" aria-live="polite"></figcaption>
+    </figure>
     <button class="lb-btn prev" id="lb-prev" aria-label="Previous photo">‹</button>
     <button class="lb-btn next" id="lb-next" aria-label="Next photo">›</button>
-    <span class="lb-count" id="lb-count" aria-live="polite"></span>
   </div>
 
   <script src="photos.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Gallery is rendered from the photos.js manifest, which is generated
-    // from the photos/ folder by:  node build-gallery.mjs
+    // Gallery is rendered from the photos.js manifest, generated from the
+    // photos/ folder by:  node build-gallery.mjs
     const grid = document.getElementById("gallery");
     const photos = window.PHOTOS || [];
+    const pad = n => String(n).padStart(2, "0");
+
+    // "liminal-halftone2-HASH.avif" → "liminal halftone 2"
+    function titleOf(src) {
+      return src
+        .replace(/\.[^.]+$/, "")
+        .split("-")
+        .slice(0, -1)
+        .join(" ")
+        .replace(/([a-z])(\d)/g, "$1 $2")
+        .trim();
+    }
+
+    const tiles = [];
+    document.getElementById("count").textContent = photos.length;
 
     if (photos.length === 0) {
       const empty = document.createElement("p");
@@ -352,49 +586,76 @@
       photos.forEach((src, i) => {
         const fig = document.createElement("figure");
         fig.className = "shot";
+        fig.tabIndex = 0;
+        fig.setAttribute("role", "button");
+        fig.setAttribute("aria-label", "Enlarge photo " + pad(i + 1) + ": " + titleOf(src));
+
+        const frame = document.createElement("span");
+        frame.className = "frame";
 
         const img = document.createElement("img");
         img.src = "photos/" + src;
-        img.alt = "Photo " + String(i + 1).padStart(2, "0");
+        img.alt = "Photo " + pad(i + 1) + " — " + titleOf(src);
         if (i > 0) img.loading = "lazy";
         img.decoding = "async";
-        fig.appendChild(img);
+        frame.appendChild(img);
 
+        const cap = document.createElement("figcaption");
+        const no = document.createElement("span");
+        no.className = "no";
+        no.textContent = pad(i + 1);
+        const title = document.createElement("span");
+        title.className = "title";
+        title.textContent = titleOf(src);
+        cap.append(no, title);
+
+        fig.append(frame, cap);
         grid.appendChild(fig);
+        tiles.push({ fig, img, title: titleOf(src) });
       });
     }
 
     const lightbox = document.getElementById("lightbox");
     const lbImg = lightbox.querySelector("img");
+    const lbCaption = document.getElementById("lb-caption");
     const lbPrev = document.getElementById("lb-prev");
     const lbNext = document.getElementById("lb-next");
-    const lbCount = document.getElementById("lb-count");
-    const shots = () => grid.querySelectorAll(".shot img");
+    const lbClose = document.getElementById("lb-close");
     let current = 0;
+    let lastFocus = null;
     let touchX = null;
     let touchY = null;
 
     function showPhoto(index) {
-      const imgs = shots();
-      if (imgs.length === 0) return;
-      current = (index + imgs.length) % imgs.length;
-      const img = imgs[current];
-      lbImg.src = img.currentSrc || img.src;
-      lbImg.alt = img.alt;
-      lbCount.textContent =
-        String(current + 1).padStart(2, "0") + " / " + String(imgs.length).padStart(2, "0");
-      lbPrev.style.visibility = imgs.length > 1 ? "visible" : "hidden";
-      lbNext.style.visibility = imgs.length > 1 ? "visible" : "hidden";
+      if (tiles.length === 0) return;
+      current = (index + tiles.length) % tiles.length;
+      const tile = tiles[current];
+      lbImg.src = tile.img.currentSrc || tile.img.src;
+      lbImg.alt = tile.img.alt;
+
+      const no = document.createElement("span");
+      no.className = "no";
+      no.textContent = pad(current + 1) + " / " + pad(tiles.length);
+      const title = document.createElement("span");
+      title.textContent = tile.title;
+      lbCaption.replaceChildren(no, title);
+
+      const single = tiles.length < 2;
+      lbPrev.style.visibility = single ? "hidden" : "visible";
+      lbNext.style.visibility = single ? "hidden" : "visible";
     }
 
     function openLightbox(index) {
+      lastFocus = document.activeElement;
       showPhoto(index);
       lightbox.classList.add("open");
+      lbClose.focus({ preventScroll: true });
     }
 
     function closeLightbox() {
       lightbox.classList.remove("open");
       lbImg.src = "";
+      if (lastFocus && lastFocus.isConnected) lastFocus.focus({ preventScroll: true });
     }
 
     function navPhoto(delta) {
@@ -403,18 +664,28 @@
     }
 
     grid.addEventListener("click", e => {
-      const img = e.target.closest(".shot img");
-      if (!img) return;
-      openLightbox(Array.prototype.indexOf.call(shots(), img));
+      const fig = e.target.closest(".shot");
+      if (!fig) return;
+      openLightbox(tiles.findIndex(t => t.fig === fig));
+    });
+
+    grid.addEventListener("keydown", e => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const fig = e.target.closest(".shot");
+      if (!fig) return;
+      e.preventDefault();
+      openLightbox(tiles.findIndex(t => t.fig === fig));
     });
 
     lbPrev.addEventListener("click", e => { e.stopPropagation(); navPhoto(-1); });
     lbNext.addEventListener("click", e => { e.stopPropagation(); navPhoto(1); });
+    lbClose.addEventListener("click", e => { e.stopPropagation(); closeLightbox(); });
     lightbox.addEventListener("click", e => {
       if (e.target === lightbox) closeLightbox();
     });
 
     document.addEventListener("keydown", e => {
+      if (!lightbox.classList.contains("open")) return;
       if (e.key === "Escape") closeLightbox();
       else if (e.key === "ArrowLeft") navPhoto(-1);
       else if (e.key === "ArrowRight") navPhoto(1);
