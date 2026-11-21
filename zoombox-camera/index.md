@@ -67,13 +67,13 @@ Unlike ordinary film filter apps that paste a flat color tint over a photo after
 ## App Screenshots
 
 1. **Zoom Box Framing Overlay (39mm):** Rangefinder crop box previewing exact frame boundary with manual focal-length control.
-   - [View Screenshot 1](https://indukto.eu/zoombox-camera/screenshots/screenshot-4.png)
+   - [View Screenshot 1](https://indukto.eu/zoombox-camera/screenshots/viewfinder-zoombox.png)
 2. **Film Look Selector Deck:** Fast swipe and grid selector for 13+ vintage film looks plus custom presets.
-   - [View Screenshot 2](https://indukto.eu/zoombox-camera/screenshots/screenshot-2.png)
+   - [View Screenshot 2](https://indukto.eu/zoombox-camera/screenshots/film-style-picker.png)
 3. **Viewfinder with Temperature & Tint Control:** Real-time 2D color matrix for instant white balance tuning.
-   - [View Screenshot 3](https://indukto.eu/zoombox-camera/screenshots/screenshot-1.png)
+   - [View Screenshot 3](https://indukto.eu/zoombox-camera/screenshots/viewfinder-temperature.png)
 4. **Settings & Pro Capture Options:** Full-resolution RAW DNG toggles, double-exposure settings, and offline verification.
-   - [View Screenshot 4](https://indukto.eu/zoombox-camera/screenshots/screenshot-3.png)
+   - [View Screenshot 4](https://indukto.eu/zoombox-camera/screenshots/settings-capture.png)
 
 ---
 
