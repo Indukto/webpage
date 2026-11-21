@@ -50,6 +50,7 @@ function markdownPathFor(url) {
   if (path === "/" || path === "/index" || path === "/index.html") return "/index.md";
   if (path === "/photo" || path === "/photo.html") return "/photo.md";
   if (path === "/api" || path === "/api.html") return "/api.md";
+  if (path === "/zoombox-camera" || path === "/zoombox-camera/" || path === "/zoombox-camera/index.html") return "/zoombox-camera/index.md";
   if (path.endsWith(".html")) return path.slice(0, -".html".length) + ".md";
   // Extensionless HTML pages (e.g. /photo) -> try /photo.md
   if (!path.split("/").pop().includes(".")) {

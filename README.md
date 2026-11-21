@@ -7,6 +7,7 @@ Source for [https://indukto.eu](https://indukto.eu): a plain-HTML static site fo
 | File | Purpose |
 | --- | --- |
 | `index.html` | Landing page for ZoomBox Camera and open-source experiments |
+| `zoombox-camera/index.html` | Dedicated landing page for ZoomBox Camera (Retro Film Camera for Android) |
 | `photo.html` | Photo gallery, rendered from the `photos.js` manifest |
 | `privacy.html` | Privacy policy in English, German, French, Spanish, Italian and Polish |
 | `api.html` | Documentation for the gallery data API (`/photos.json`, `/status.json`, `/openapi.json`) |
