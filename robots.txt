@@ -8,3 +8,4 @@ Disallow: /tmp/
 Content-Signal: ai-train=yes, search=yes, ai-input=yes
 
 Sitemap: https://indukto.eu/sitemap.xml
+Sitemap: https://indukto.eu/sitemap-index.xml

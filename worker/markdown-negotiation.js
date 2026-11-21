@@ -76,6 +76,19 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Edge redirects: canonical host + HTTPS. The GitHub Pages origin does not
+    // enforce HTTPS (no cert), and the zone may not have "Always Use HTTPS"
+    // enabled — this covers both without loops (it only fires for incoming
+    // http:// or www requests; zone-level HTTPS redirects happen before this).
+    if (url.protocol === "http:" || url.hostname === "www.indukto.eu") {
+      url.protocol = "https:";
+      url.hostname = "indukto.eu";
+      return new Response(null, {
+        status: 308,
+        headers: { Location: url.toString(), "Cache-Control": "public, max-age=300" },
+      });
+    }
+
     // Pass through non-HTML / non-negotiated requests, but ensure Vary: Accept
     // on HTML responses so caches store separate variants.
     if (!wantsMarkdown(request)) {
